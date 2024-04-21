@@ -1,6 +1,6 @@
 package buffer;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,13 +23,17 @@ class Alumni {
 
 	String gmail;
 	String contact;
-	ArrayList<Post> posts;
+	ArrayList<Post> posts = new ArrayList<>();
+
+	public ArrayList<Post> getPosts() {
+		return posts;
+	}
 
 	Alumni(String Name, String Branch, String PassingYear, String domain, String organisation, ArrayList<String> Tags,
 
 			String Id, String gmail, String contact) {
 
-		this.posts = new ArrayList<>();
+//this.posts = new ArrayList<>();
 
 		this.name = Name;
 
@@ -65,9 +69,7 @@ class Alumni {
 
 		System.out.print("Enter post date (yyyy-mm-dd): ");
 
-		String postDateInput = input.nextLine();
-
-		LocalDate postDate = LocalDate.parse(postDateInput);
+		String postDate = input.nextLine();
 
 		System.out.print("Enter deadline of registration: ");
 
@@ -75,9 +77,7 @@ class Alumni {
 
 		System.out.print("Enter date of event (yyyy-mm-dd): ");
 
-		String dateOfEventInput = input.nextLine();
-
-		LocalDate dateOfEvent = LocalDate.parse(dateOfEventInput);
+		String dateOfEvent = input.nextLine();
 
 		System.out.print("Enter post description: ");
 
@@ -120,6 +120,17 @@ class Alumni {
 
 	}
 
+//public void displayAllPosts() {
+//      if (!posts.isEmpty()) {
+//          System.out.println("All Posts:");
+//          for (Post post : posts) {
+//              displayPost(post);
+//          }
+//      } else {
+//          System.out.println("No posts available.");
+//      }
+//}
+
 	public void deletePost() {
 
 		Scanner input = new Scanner(System.in);
@@ -149,3 +160,4 @@ class Alumni {
 	}
 
 }
+
