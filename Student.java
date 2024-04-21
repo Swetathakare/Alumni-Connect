@@ -26,8 +26,8 @@ class Student {
 		this.workExperience = workExperience;
 		this.next = null;
 	}
-
-	public String getRollNum() {
+}
+	/*public String getRollNum() {
 		return rollNum;
 	}
 
@@ -108,4 +108,4 @@ class Student {
 		this.next = next;
 	}
 
-}
+}*/
