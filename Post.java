@@ -1,6 +1,5 @@
-package buffer;
-
-import java.time.LocalDate;
+package bufferpackage;
+//import java.time.LocalDate;
 import java.util.ArrayList;
 
 class Post {
@@ -9,17 +8,17 @@ class Post {
 
 	String Title;
 
-	LocalDate postDate;
+	String postDate;
 
 	String deadlineOfRegistration;
 
-	LocalDate dateOfEvent;
+	String dateOfEvent;
 
 	String postDescription;
 
 	ArrayList<String> postTags;
 
-	public Post(String Id, String Title, LocalDate postDate, String deadlineOfRegistration, LocalDate dateOfEvent,
+	public Post(String Id, String Title, String postDate, String deadlineOfRegistration, String dateOfEvent,
 
 			String postDescription, ArrayList<String> postTags) {
 
@@ -51,7 +50,7 @@ class Post {
 
 	}
 
-	public LocalDate getPostDate() {
+	public String getPostDate() {
 
 		return postDate;
 
@@ -63,7 +62,7 @@ class Post {
 
 	}
 
-	public LocalDate getDateOfEvent() {
+	public String getDateOfEvent() {
 
 		return dateOfEvent;
 
