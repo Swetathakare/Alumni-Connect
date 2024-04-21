@@ -191,5 +191,24 @@ class AlumniDB {
 
 
 }
+	public void displayAlumniDetailsById(String id) {
+    if (alumniMap.containsKey(id)) {
+        Alumni alumni = alumniMap.get(id);
+
+        System.out.println("-------------------------------------");
+        System.out.println("Name: " + alumni.name);
+        System.out.println("Branch: " + alumni.branch);
+        System.out.println("Passing Year: " + alumni.passingYear);
+        System.out.println("Job Profile: " + alumni.domain);
+        System.out.println("Organisation: " + alumni.organisation);
+        System.out.println("Tags: " + alumni.tags);
+        System.out.println("Gmail: " + alumni.gmail);
+        System.out.println("Contact: " + alumni.contact);
+        System.out.println("-------------------------------------");
+    } else {
+        System.out.println("Alumni with ID " + id + " not found.");
+    }
+}
+
 }
 
