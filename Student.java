@@ -26,6 +26,55 @@ class Student {
 		this.workExperience = workExperience;
 		this.next = null;
 	}
+	static Student studentInput() {
+
+		System.out.println("-------------------------------------");
+
+		System.out.print("Enter Roll Number : ");
+
+		String rollNum = sc.nextLine();
+
+		System.out.print("Enter Name : ");
+
+		String name = sc.nextLine();
+
+		System.out.print("Enter Contact Number : ");
+
+		String contactNo = sc.nextLine();
+
+		System.out.print("Enter Email Id : ");
+
+		String emailId = sc.nextLine();
+
+		System.out.print("Enter Branch : ");
+
+		String branch = sc.nextLine();
+
+		System.out.print("Enter Year of Study : ");
+
+		int yearOfStudy = sc.nextInt();
+
+		sc.nextLine();
+
+		System.out.print("Enter GPA : ");
+
+		double GPA = sc.nextDouble();
+
+		sc.nextLine();
+
+		System.out.print("Enter Area of Interest : ");
+
+		String areaOfInterest = sc.nextLine();
+
+		System.out.print("Enter Work Experience : ");
+
+		String workExperience = sc.nextLine();
+
+		System.out.println("-------------------------------------");
+
+		return new Student(rollNum, name, contactNo, emailId, branch, yearOfStudy, GPA, areaOfInterest, workExperience);
+
+		}
 }
 	/*public String getRollNum() {
 		return rollNum;
