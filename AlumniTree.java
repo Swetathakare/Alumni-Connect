@@ -6,8 +6,8 @@ class AlumniTree {
 
 	String data;
 	LinkedList<AlumniTree> child;
-	AlumniTree root;
-
+	static AlumniTree root;
+   
 	AlumniTree(String data) {
 
 		this.data = data;
@@ -17,7 +17,7 @@ class AlumniTree {
 
 	void initializeTree() {
 
-		root.data = "Alumni Tree";
+		root = new AlumniTree("Alumni Tree");
 		root.child.add(new AlumniTree("Passing Year"));
 		root.child.add(new AlumniTree("Domain"));
 		root.child.add(new AlumniTree("Branch"));
@@ -25,7 +25,70 @@ class AlumniTree {
 
 	}
 
-	void addPassingYear(String passYear, String Uname) {
+	void addDomain(String Domain, String Uname) {
+
+		AlumniTree newAlumni = new AlumniTree( Uname );
+		LinkedList<AlumniTree> child = root.child;
+		LinkedList<AlumniTree> temp = child;
+		AlumniTree curr = null;
+		
+		for (AlumniTree at : temp){
+			if (at.data.equals("Domain")) {
+				curr = at;
+			}
+		}
+		AlumniTree par = curr;
+		child = curr.child;
+		temp = child;
+		curr = null;
+		boolean isFound = false;
+
+		for (AlumniTree at : temp){
+			if (at.data.equals(Domain)){
+				isFound = true;
+				curr = at;
+			}
+		}
+		if (isFound) {
+			curr.child.add(newAlumni);
+		} else {
+			AlumniTree newYear = new AlumniTree(Domain);
+			newYear.child.add(newAlumni);
+			par.child.add(newYear);
+		}
+	}
+	void addBranch(String Branch, String Uname){
+
+		AlumniTree newAlumni = new AlumniTree(Uname);
+		LinkedList<AlumniTree> child = root.child;
+		LinkedList<AlumniTree> temp = child;
+		AlumniTree curr = null;
+		for (AlumniTree at : temp) {
+			if (at.data.equals("Branch")) {
+				curr = at;
+			}
+		}
+		AlumniTree par = curr;
+		child = curr.child;
+		temp = child;
+		curr = null;
+		boolean isFound = false;
+
+		for (AlumniTree at : temp) {
+			if (at.data.equals(Branch)) {
+				isFound = true;
+				curr = at;
+			}
+		}
+		if (isFound) {
+			curr.child.add(newAlumni);
+		} else {
+			AlumniTree newYear = new AlumniTree(Branch);
+			newYear.child.add(newAlumni);
+			par.child.add(newYear);
+		}
+	}
+	void addPassingYear(String passYear, String Uname){
 
 		AlumniTree newAlumni = new AlumniTree(Uname);
 		LinkedList<AlumniTree> child = root.child;
@@ -52,6 +115,37 @@ class AlumniTree {
 			curr.child.add(newAlumni);
 		} else {
 			AlumniTree newYear = new AlumniTree(passYear);
+			newYear.child.add(newAlumni);
+			par.child.add(newYear);
+		}
+	}
+	void addOrganisation(String Organisation, String Uname){
+
+		AlumniTree newAlumni = new AlumniTree(Uname);
+		LinkedList<AlumniTree> child = root.child;
+		LinkedList<AlumniTree> temp = child;
+		AlumniTree curr = null;
+		for (AlumniTree at : temp) {
+			if (at.data.equals("Organisation")) {
+				curr = at;
+			}
+		}
+		AlumniTree par = curr;
+		child = curr.child;
+		temp = child;
+		curr = null;
+		boolean isFound = false;
+
+		for (AlumniTree at : temp) {
+			if (at.data.equals(Organisation)) {
+				isFound = true;
+				curr = at;
+			}
+		}
+		if (isFound) {
+			curr.child.add(newAlumni);
+		} else {
+			AlumniTree newYear = new AlumniTree(Organisation);
 			newYear.child.add(newAlumni);
 			par.child.add(newYear);
 		}
