@@ -3,13 +3,15 @@ package buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 class AlumniDB {
+    static AlumniTree a= new AlumniTree("");
+	HashMap<String, Alumni> alumniMap = new HashMap<>();
 
 	AlumniDB() {
 		
-		HashMap<String, Alumni> alumniMap = new HashMap<>();
 		alumniMap.put("Priya_123",
 
 				new Alumni("Priya Gupta", "Electrical Engineering", "2015", "Software Engineer", "Microsoft",
@@ -113,16 +115,57 @@ class AlumniDB {
 						new ArrayList<>(Arrays.asList("user experience", "UI design", "wireframing")), "Muskaan_283",
 
 						"muskaan@example.com", "0123456789"));
-
-
-
+       a.initializeTree();
+       System.out.println(a.data);
+       for(String alumniK : alumniMap.keySet()) {
+    	   
+    	   Alumni currAlumni = alumniMap.get(alumniK);
+    	   a.addBranch(currAlumni.branch, alumniK);
+    	   a.addPassingYear(currAlumni.passingYear, alumniK);
+    	   a.addDomain(currAlumni.domain, alumniK);
+    	   a.addOrganisation(currAlumni.organisation, alumniK);
+    	   
+       }
+      // System.out.println(a.data);
+       //display(a.root);
 	}
 
 
-
+    void display(AlumniTree root){
+    	if(root==null) return ;
+    	
+    	System.out.println(root.data);
+    	LinkedList<AlumniTree> child= root.child;
+    	if(child!= null) {
+    		for(AlumniTree tmp:child)
+    			display(tmp);
+    	}
+    	
+    }
+    
+    LinkedList<AlumniTree> seeAlumniByBranch(AlumniTree root){
+    	
+    	LinkedList<AlumniTree> child = root.child;
+    	
+    	for(AlumniTree curr : child ) {
+    		if(curr.data =="Branch") {
+    			return curr.child;
+    		}
+    	}return null;
+    	
+    }
+    
+    LinkedList<AlumniTree> seeAlumniByPassingYear(AlumniTree root){
+    	
+    LinkedList<AlumniTree> child = root.child;
+    	
+    	for(AlumniTree curr : child ) {
+    		if(curr.data =="Passing Year") {
+    			return curr.child;
+    		}
+    	}return null;
+    }
 	void createNewAlumni() {
-
-		
 
 			Scanner scanner = new Scanner(System.in);
 
@@ -188,27 +231,24 @@ class AlumniDB {
 
 			alumniMap.put(id, new Alumni(name, branch, passingYear, jobProfile, "default", tags, id, gmail, contact));
 
-
-
 }
 	public void displayAlumniDetailsById(String id) {
-    if (alumniMap.containsKey(id)) {
-        Alumni alumni = alumniMap.get(id);
+	    if (alumniMap.containsKey(id)) {
+	        Alumni alumni = alumniMap.get(id);
 
-        System.out.println("-------------------------------------");
-        System.out.println("Name: " + alumni.name);
-        System.out.println("Branch: " + alumni.branch);
-        System.out.println("Passing Year: " + alumni.passingYear);
-        System.out.println("Job Profile: " + alumni.domain);
-        System.out.println("Organisation: " + alumni.organisation);
-        System.out.println("Tags: " + alumni.tags);
-        System.out.println("Gmail: " + alumni.gmail);
-        System.out.println("Contact: " + alumni.contact);
-        System.out.println("-------------------------------------");
-    } else {
-        System.out.println("Alumni with ID " + id + " not found.");
-    }
-}
-
+	        System.out.println("-------------------------------------");
+	        System.out.println("Name: " + alumni.name);
+	        System.out.println("Branch: " + alumni.branch);
+	        System.out.println("Passing Year: " + alumni.passingYear);
+	        System.out.println("Job Profile: " + alumni.domain);
+	        System.out.println("Organisation: " + alumni.organisation);
+	        System.out.println("Tags: " + alumni.tags);
+	        System.out.println("Gmail: " + alumni.gmail);
+	        System.out.println("Contact: " + alumni.contact);
+	        System.out.println("-------------------------------------");
+	    } else {
+	        System.out.println("Alumni with ID " + id + " not found.");
+	    }
+	}
 }
 
