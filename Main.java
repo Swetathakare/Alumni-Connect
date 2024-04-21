@@ -10,6 +10,73 @@ public class Main {
 	static boolean check(String alId,String alPass) {
 		return true;
 	}
+	static Alumni alumniInput() {
+
+		System.out.println("-------------------------------------");
+
+		System.out.print("Enter Name             :-");
+		String alName = sc.nextLine();
+
+		System.out.print("Enter Id               :-");
+		String id = sc.nextLine();
+
+		System.out.print("Enter Branch           :-");
+		String branch = sc.nextLine();
+
+		System.out.print("Enter Passing Year     :-");
+		int passingYear = sc.nextInt();
+		sc.nextLine();
+
+		System.out.print("Enter jobProfile       :-");
+		String jobProfile = sc.nextLine();
+
+		System.out.print("Enter Number of fields :-");
+		int numOfDom = sc.nextInt();
+		ArrayList<String> al = new ArrayList<>();
+
+		for (int i = 0; i < numOfDom; i++) {
+			String tmp = sc.nextLine();
+			al.add(tmp);
+		}
+
+		System.out.print("Enter Email Id         :-");
+		String emailId = sc.nextLine();
+
+		System.out.print("Enter Phone No         :-");
+		long phone = sc.nextLong();
+
+		System.out.println("-------------------------------------");
+
+		return new Alumni(alName, branch, passingYear, jobProfile, al, id);
+	}
+
+	static boolean checkStudent(String username, String password) {
+        // Dummy implementation for checking student credentials
+        return true; // Returning true for demonstration
+    }
+	static void seeAlumniByPreference() {
+        // Options based on alumni preferences
+        System.out.println("------------------\n" + "1) Based on branch \n" + "2) Based on passing year \n" + "3) Based on domain \n" + "4) Based on organization\n--------------------");
+        int choice = sc.nextInt();
+        switch (choice) {
+            case 1:
+                //seeAlumniByBranch();
+                break;
+            case 2:
+                //seeAlumniByPassingYear();
+                break;
+            case 3:
+                //seeAlumniByDomain();
+                break;
+            case 4:
+                //seeAlumniByOrganization();
+                break;
+            default:
+                System.out.println("Invalid Choice !");
+                break;
+        }
+    }
+
 	static Student studentInput() {
 
 		System.out.println("-------------------------------------");
@@ -63,30 +130,16 @@ public class Main {
         // Dummy implementation for checking student credentials
         return true; // Returning true for demonstration
     }
-static void seeAlumniByPreference() {
-        // Options based on alumni preferences
-        System.out.println("------------------\n" + "1) Based on branch \n" + "2) Based on passing year \n" + "3) Based on domain \n" + "4) Based on organization\n--------------------");
-        int choice = sc.nextInt();
-        switch (choice) {
-            case 1:
-                //seeAlumniByBranch();
-                break;
-            case 2:
-                //seeAlumniByPassingYear();
-                break;
-            case 3:
-                //seeAlumniByDomain();
-                break;
-            case 4:
-                //seeAlumniByOrganization();
-                break;
-            default:
-                System.out.println("Invalid Choice !");
-                break;
-        }
-}
+
 	public static void main(String[] args) {
+		
 		AlumniDB obj=new AlumniDB();
+LinkedList<Student> studentsList = new LinkedList<>();
+
+		//dummy data for student
+	studentsList.add(new Student("ABC1234567", "Riddhi Sharma", "9876543210", "riddhi@xyzcollege.in", "Computer Science", 3, 3.8, "Software Development", "Intern at CompanyX"));
+        studentsList.add(new Student("DEF2345678", "Rohan Desh", "9876543211", "rohan@xyzcollege.in", "Electrical Engineering", 2, 3.5, "Data Analysis", "Data Analyst at CompanyY"));
+        studentsList.add(new Student("GHI3456789", "Ali Singh", "9876543212", "ali@xyzcollege.in", "Mechanical Engineering", 4, 3.2, "Product Management", "Product Manager at CompanyZ"));
 
 		System.out.println("------------\n"
 				+ "1) Alumni\n"
