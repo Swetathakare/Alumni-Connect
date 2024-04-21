@@ -1,4 +1,7 @@
-package bufferpackage;
+package buffer;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 //import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -80,3 +83,4 @@ class Post {
 
 	}
 }
+
