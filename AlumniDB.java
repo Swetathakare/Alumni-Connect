@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 class AlumniDB {
 
 	static AlumniTree a = new AlumniTree("");
-	HashMap<String, Alumni> alumniMap = new HashMap<>();
+	static HashMap<String, Alumni> alumniMap = new HashMap<>();
 
 AlumniDB() {
 		
@@ -19,17 +20,13 @@ AlumniDB() {
 
 						new ArrayList<>(Arrays.asList("#coding", "#algorithms")), "Priya_123", "priya@example.com",
 
-						"1234567890"));
+						"1234567890","Priya@1234"));
 
-	    Alumni alumni = new Alumni("Aisha Khan", "Electrical Engineering", "2018", "Data Analyst", "Microsoft",new ArrayList<>(Arrays.asList("data analysis", "statistics", "SQL")), "Aisha_234", "aisha@example.com", "9876543210");
+	    Alumni alumni = new Alumni("Aisha Khan", "Electrical Engineering", "2018", "Data Analyst", "Microsoft",new ArrayList<>(Arrays.asList("data analysis", "statistics", "SQL")), "Aisha_234", "aisha@example.com", "9876543210","Aisha!234");
 
 	    alumni.posts.add(new Post("1", "Data Analysis Workshop", "25-02-2023", "10-03-2023","15-03-2023", "Join us for an insightful workshop on data analysis.", new ArrayList<>(Arrays.asList("#dataanalysis", "#statistics", "#SQL"))));
 
 	    alumniMap.put("Aisha_234",alumni);  
-
-				
-
-		
 
 		alumniMap.put("Neha_483",
 
@@ -37,7 +34,7 @@ AlumniDB() {
 
 						new ArrayList<>(Arrays.asList("product management", "leadership", "strategy")), "Neha_483",
 
-						"neha@example.com", "4567890123"));
+						"neha@example.com", "4567890123","Neha_483@!"));
 
 		
 
@@ -49,7 +46,7 @@ AlumniDB() {
 
 						new ArrayList<>(Arrays.asList("web development", "front-end", "JavaScript")), "Shruti_456",
 
-						"shruti@example.com", "7890123456"));
+						"shruti@example.com", "7890123456","Shruti456#"));
 
 
 
@@ -69,7 +66,7 @@ AlumniDB() {
 
                 new ArrayList<>(Arrays.asList("machine learning", "data science", "Python")), "Pooja_453",
 
-                "pooja@example.com", "2345678901" );
+                "pooja@example.com", "2345678901"," Pooja_453$!" );
 
         alumni.posts.add(post);
 
@@ -89,23 +86,18 @@ AlumniDB() {
 
 				new ArrayList<>(Arrays.asList("software development", "Java", "databases")), "Ritu_376",
 
-				"ritu@example.com", "3456789012");
+				"ritu@example.com", "3456789012","Ritu_376&123");
 
 	    alumni.posts.add(post2);
 
 		alumniMap.put("Ritu_376",alumni);
 
-		
-
-		
-
-		
 
 		alumni=new Alumni("Swati Kumari", "Electrical Engineering", "2016", "Data Scientist", "Infosys",
 
 				new ArrayList<>(Arrays.asList("data analytics", "machine learning", "Python")), "Swati_387",
 
-				"swati@example.com", "4567890123");
+				"swati@example.com", "4567890123","Swati_387*2024");
 
 		  postTags = new ArrayList<>(Arrays.asList ("#nodejs", "#angularjs", "#web"));
 
@@ -125,7 +117,7 @@ AlumniDB() {
 
 				new ArrayList<>(Arrays.asList("web design", "CSS", "JavaScript")), "Komal_399",
 
-				"komal@example.com", "6789012345");
+				"komal@example.com", "6789012345"," Komal_399@pwd");
 
 	    alumni.posts.add( new Post("4", "Internship Guidance in Web Development", "10-04-2023", "15-04-2023", "16-04-2023",
 
@@ -135,17 +127,11 @@ AlumniDB() {
 
 		alumniMap.put("Komal_399",alumni);
 
-
-
-		
-
-		
-
 		alumni=new Alumni("Natasha Singh", "Mechanical Engineering", "2013", "Engineering Manager", "Wipro",
 
 				new ArrayList<>(Arrays.asList("project management", "team leadership")), "Natasha_908",
 
-				"natasha@example.com", "5678901234");
+				"natasha@example.com", "5678901234","Natasha_908!");
 
 		alumni.posts.add(new Post("5", "Navigating Engineering Management", "10-04-2023", "15-04-2023", "16-04-2023",
 
@@ -165,7 +151,7 @@ AlumniDB() {
 
 						new ArrayList<>(Arrays.asList("artificial intelligence", "research", "Python")), "Nisha_103",
 
-						"nisha@example.com", "7890123456"));
+						"nisha@example.com", "7890123456", "Nisha_103#pwd"));
 
 		alumniMap.put("Rhea_172",
 
@@ -173,13 +159,13 @@ AlumniDB() {
 
 						new ArrayList<>(Arrays.asList("business analysis", "requirements gathering")), "Rhea_172",
 
-						"rhea@example.com", "8901234567"));
+						"rhea@example.com", "8901234567","Rhea_172%pass"));
 
 		alumniMap.put("Simran_283",new Alumni("Simran Singh", "Mechanical Engineering", "2015", "Product Designer", "HCL Technologies",
 
 						new ArrayList<>(Arrays.asList("product design", "CAD", "prototyping")), "Simran_283",
 
-						"simran@example.com", "9012345678"));
+						"simran@example.com", "9012345678","Simran_283@2024"));
 
 		alumniMap.put("Muskaan_283",
 
@@ -187,7 +173,7 @@ AlumniDB() {
 
 						new ArrayList<>(Arrays.asList("user experience", "UI design", "wireframing")), "Muskaan_283",
 
-						"muskaan@example.com", "0123456789"));
+						"muskaan@example.com", "0123456789","Muskaan_283&123"));
 
 
 		
@@ -204,6 +190,7 @@ AlumniDB() {
 
 	}
 }
+
 	void display(AlumniTree root) {
 		if (root == null)
 			return;
@@ -286,6 +273,73 @@ AlumniDB() {
 		}
 		return null;
 	}
+	//add in AlumniDB and remove earlier method from alumni
+
+
+
+
+
+	public void createPost(String alId) {
+
+	Scanner input = new Scanner(System.in);
+
+	System.out.print("Enter post ID: ");
+
+	String postId = input.nextLine();
+
+	System.out.print("Enter post title: ");
+
+	String postTitle = input.nextLine();
+
+	System.out.print("Enter post date (yyyy-mm-dd): ");
+
+	String postDate = input.nextLine();
+
+	System.out.print("Enter deadline of registration: ");
+
+	String deadlineOfRegistration = input.nextLine();
+
+	System.out.print("Enter date of event (yyyy-mm-dd): ");
+
+	String dateOfEvent = input.nextLine();
+
+	System.out.print("Enter post description: ");
+
+	String postDescription = input.nextLine();
+
+	System.out.print("Enter tags : ");
+
+	String[] tagArray = input.nextLine().split(",");
+
+	ArrayList<String> postTags = new ArrayList<>(List.of(tagArray));
+
+	// Create the new post
+
+	Post newPost = new Post(postId, postTitle, postDate, deadlineOfRegistration, dateOfEvent, postDescription, postTags);
+
+	// Update the database with the new post
+
+	if (AlumniDB.alumniMap.containsKey(alId)) {
+
+	Alumni alumni = AlumniDB.alumniMap.get(alId);
+
+	alumni.posts.add(newPost);
+
+	alumniMap.put(alId,alumni);
+
+	System.out.println("Post added to the database successfully!");
+
+	} else {
+
+	System.out.println("Alumni with ID " + alId + " not found.");
+
+	}
+
+	System.out.println("Post created successfully!");
+
+	}
+
+
 
 	void createNewAlumni() {
 
@@ -330,8 +384,12 @@ AlumniDB() {
 		System.out.print("Contact: ");
 
 		String contact = scanner.nextLine();
+		
+		System.out.print("Password : ");
 
-		alumniMap.put(id, new Alumni(name, branch, passingYear, jobProfile, "default", tags, id, gmail, contact));
+		String p = scanner.nextLine();
+
+		alumniMap.put(id, new Alumni(name, branch, passingYear, jobProfile, "default", tags, id, gmail, contact,p));
 
 	}
 
@@ -339,6 +397,87 @@ AlumniDB() {
 		for (String id : alumniMap.keySet()) {
 			displayAlumniDetailsById(id);
 		}
+	}
+	
+	boolean checkAlumni(String alId, String alPass) {
+		if(alumniMap.containsKey(alId)) {
+			Alumni  a= alumniMap.get(alId);
+			if(a.password.equals(alPass)) return true;
+			else System.out.println("Incorrect Password!");
+		}
+		return false;
+	}
+	public void displayAlumniDetailsByIdInDetails(String id) {
+
+		if (alumniMap.containsKey(id)) {
+
+			Alumni alumni = alumniMap.get(id);
+
+
+			System.out.println("-------------------------------------");
+
+			System.out.println("Id          : " + alumni.id);
+
+			System.out.println("Name        : " + alumni.name);
+
+			System.out.println("Branch      : " + alumni.branch);
+
+			System.out.println("Passing Year: " + alumni.passingYear);
+
+			System.out.println("Job Profile : " + alumni.domain);
+
+			System.out.println("Organisation: " + alumni.organisation);
+
+			System.out.println("Tags        : " + alumni.tags);
+
+			System.out.println("Gmail       : " + alumni.gmail);
+
+			System.out.println("Contact     : " + alumni.contact);
+
+
+
+			
+
+			for (Post post : alumni.getPosts()) {
+
+				if (alumni.getPosts() != null) {
+
+			
+
+					System.out.println("Posts:");
+
+
+
+					System.out.println("Post ID: " + post.getId());
+
+					System.out.println("Title: " + post.getTitle());
+
+					System.out.println("Date of Event: " + post.getPostDate());
+
+					System.out.println("Deadline of registration: " + post.getDeadlineOfRegistration());
+
+					System.out.println("Description: " + post.getPostDescription());
+
+					System.out.println("Tags: " + post.getTags());
+
+					System.out.println("-----------------------------");
+
+				}
+
+			}
+
+			
+
+			System.out.println("-------------------------------------");
+
+			
+
+		} else {
+
+			System.out.println("Alumni with ID " + id + " not found.");
+
+		}
+
 	}
 
 	public void displayAlumniDetailsById(String id) {
@@ -351,16 +490,15 @@ AlumniDB() {
 			System.out.println("Branch      : " + alumni.branch);
 			System.out.println("Passing Year: " + alumni.passingYear);
 			System.out.println("Job Profile : " + alumni.domain);
-			System.out.println("Organisation: " + alumni.organisation);
-			System.out.println("Tags        : " + alumni.tags);
-			System.out.println("Gmail       : " + alumni.gmail);
-			System.out.println("Contact     : " + alumni.contact);
+			//System.out.println("Organisation: " + alumni.organisation);
+			//System.out.println("Tags        : " + alumni.tags);
+			//System.out.println("Gmail       : " + alumni.gmail);
+			//System.out.println("Contact     : " + alumni.contact);
 			System.out.println("-------------------------------------");
 		} else {
 			System.out.println("Alumni with ID " + id + " not found.");
 		}
 	}
+	
+	
 }
-
-
-
