@@ -14,7 +14,7 @@ class Alumni {
 	String passingYear;
 
 	String domain;
-
+    String password;
 	String organisation;
 
 	ArrayList<String> tags;
@@ -31,7 +31,7 @@ class Alumni {
 
 	Alumni(String Name, String Branch, String PassingYear, String domain, String organisation, ArrayList<String> Tags,
 
-			String Id, String gmail, String contact) {
+			String Id, String gmail, String contact ,String password) {
 
 //this.posts = new ArrayList<>();
 
@@ -52,51 +52,10 @@ class Alumni {
 		this.gmail = gmail;
 
 		this.contact = contact;
-
+        
+		this.password =password; 
 	}
 
-	public void createPost() {
-
-		Scanner input = new Scanner(System.in);
-
-		System.out.print("Enter post ID: ");
-
-		String postId = input.nextLine();
-
-		System.out.print("Enter post title: ");
-
-		String postTitle = input.nextLine();
-
-		System.out.print("Enter post date (yyyy-mm-dd): ");
-
-		String postDate = input.nextLine();
-
-		System.out.print("Enter deadline of registration: ");
-
-		String deadlineOfRegistration = input.nextLine();
-
-		System.out.print("Enter date of event (yyyy-mm-dd): ");
-
-		String dateOfEvent = input.nextLine();
-
-		System.out.print("Enter post description: ");
-
-		String postDescription = input.nextLine();
-
-		System.out.print("Enter tags : ");
-
-		String[] tagArray = input.nextLine().split(",");
-
-		ArrayList<String> postTags = new ArrayList<>(List.of(tagArray));
-
-		Post newPost = new Post(postId, postTitle, postDate, deadlineOfRegistration, dateOfEvent, postDescription,
-				postTags);
-
-		posts.add(newPost);
-
-		System.out.println("Post created successfully!");
-
-	}
 
 	public void displayPost(Post post) {
 
@@ -120,16 +79,7 @@ class Alumni {
 
 	}
 
-//public void displayAllPosts() {
-//      if (!posts.isEmpty()) {
-//          System.out.println("All Posts:");
-//          for (Post post : posts) {
-//              displayPost(post);
-//          }
-//      } else {
-//          System.out.println("No posts available.");
-//      }
-//}
+
 
 	public void deletePost() {
 
@@ -160,4 +110,5 @@ class Alumni {
 	}
 
 }
+
 
