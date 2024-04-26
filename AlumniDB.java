@@ -653,6 +653,29 @@ public void displayAlumniDetailsById(String id) {
 	}
 }
 
+	public void deleteAlumniDetailsById(String id) {
+
+	if (alumniMap.containsKey(id)){
+
+		
+
+		Alumni alumni = alumniMap.get(id);
+
+		a.deleteBranch(alumni.branch,alumni.name);
+
+		a.deleteDomain(alumni.domain,alumni.name);
+
+		a.deleteOrganisation(alumni.organisation,alumni.name);
+
+		a.deletePassingYear(alumni.passingYear,alumni.name);
+
+		alumni.posts=null;
+
+		alumniMap.remove(id);
+
+
+
+	}}
 	
 	public void updateAlumniDetails(String alumniId) {
 	    Scanner scanner = new Scanner(System.in);
