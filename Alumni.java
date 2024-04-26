@@ -20,7 +20,6 @@ class Alumni {
 	ArrayList<String> tags;
 
 	String id;
-
 	String gmail;
 	String contact;
 	ArrayList<Post> posts = new ArrayList<>();
@@ -110,5 +109,4 @@ class Alumni {
 	}
 
 }
-
 
