@@ -1,14 +1,17 @@
+
 package buffer;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import java.awt.event.ActionListener;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.util.*;
 public class Main extends JFrame {
 	
     private static JPanel mainPanel;
@@ -62,20 +65,30 @@ public class Main extends JFrame {
         // Create the main menu
         displayMainMenu();
     }
-
     private void displayMainMenu() {
         mainPanel.removeAll();
 
-        // Creating a JLabel to hold the background image
-        ImageIcon backgroundImage = new ImageIcon("sample.jpg");
-        JLabel backgroundLabel = new JLabel(backgroundImage);
-        backgroundLabel.setLayout(new BorderLayout());
+        // Creating a panel with a custom paintComponent method for drawing the background image
+        JPanel backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Load the background image
+                ImageIcon backgroundImage = new ImageIcon("C:\\Users\\Sweta Thakre\\Desktop\\Buffer\\Buffer\\src\\buffer\\CumminsImage.jpg");
+                // Draw the background image
+                g.drawImage(backgroundImage.getImage(), 0, 0,getWidth(), getHeight(), this);
+                // Draw a translucent overlay
+                g.setColor(new Color(255, 255, 255, 190)); // Set color with 180 (out of 255) alpha value
+                g.fillRect(0, 0, getWidth(), getHeight()); // Fill the entire panel with the overlay color
+            }
+        };
+        backgroundPanel.setLayout(new BoxLayout(backgroundPanel, BoxLayout.Y_AXIS));
 
-        // Switching to BoxLayout with Y_AXIS alignment
-        backgroundLabel.setLayout(new BoxLayout(backgroundLabel, BoxLayout.Y_AXIS));
-
-        // Adding vertical strut for spacing
-        backgroundLabel.add(Box.createVerticalGlue());
+        // Creating a heading label
+        JLabel headingLabel = new JLabel("Cummins Connect");
+        headingLabel.setFont(new Font("Monotype Corsiva", Font.BOLD, 56)); // Set font and size
+        headingLabel.setForeground(Color.BLACK); // Set font color
+        headingLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align horizontally
 
         // Creating panel for buttons with BoxLayout Y_AXIS alignment
         JPanel buttonPanel = new JPanel();
@@ -85,108 +98,230 @@ public class Main extends JFrame {
 
         // Creating buttons for Alumni and Student options
         JButton alumniButton = new JButton("Alumni");
-        alumniButton.setFont(alumniButton.getFont().deriveFont(Font.PLAIN, 14)); // Decrease font size
-        alumniButton.setMaximumSize(new Dimension(150, 30)); // Set maximum size
-        alumniButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align horizontally
-        alumniButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayAlumniOptions();
-            }
-        });
+        setupButton(alumniButton);
+        alumniButton.addActionListener(e -> displayAlumniOptions());
         buttonPanel.add(alumniButton);
 
         // Adding vertical strut for spacing
         buttonPanel.add(Box.createVerticalStrut(20)); // Adjust spacing as needed
 
         JButton studentButton = new JButton("Student");
-        studentButton.setFont(studentButton.getFont().deriveFont(Font.PLAIN, 14)); // Decrease font size
-        studentButton.setMaximumSize(new Dimension(150, 30)); // Set maximum size
-        studentButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align horizontally
-        studentButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (loggedIn) {
-                    displayStudentOptions();
-                } else {
-                    displayStudentLoginSignup();
-                }
-            }
+        setupButton(studentButton);
+        studentButton.addActionListener(e -> {
+            
+            	displayStudentLoginPage();
+       
         });
         buttonPanel.add(studentButton);
 
-        // Adding button panel to main panel
-        backgroundLabel.add(buttonPanel, BorderLayout.CENTER);
+        // Adding vertical glue to center the buttonPanel vertically
+        backgroundPanel.add(Box.createVerticalGlue());
+        backgroundPanel.add(headingLabel);
+        backgroundPanel.add(Box.createVerticalStrut(20)); // Adjust spacing as needed
+        backgroundPanel.add(buttonPanel);
+        backgroundPanel.add(Box.createVerticalGlue());
 
-        // Adding vertical strut for spacing
-        backgroundLabel.add(Box.createVerticalGlue(), BorderLayout.SOUTH);
+        // Adding a border to the background panel with rounded corners and increased size
+        backgroundPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5, true)); // Increase border thickness here
 
-        mainPanel.add(backgroundLabel);
+        // Setting minimum size of the background panel to ensure its creation
+        backgroundPanel.setMinimumSize(new Dimension(800, 600)); // Adjust size according to your needs
 
-        // Adding vertical strut for spacing
-        mainPanel.add(Box.createVerticalGlue());
+        // Adding the background panel to the main panel
+        mainPanel.add(backgroundPanel);
 
+        // Repaint the main panel
         mainPanel.revalidate();
         mainPanel.repaint();
     }
 
-    private void displayStudentLoginSignup() {
+    // Method to setup button properties
+    private void setupButton(JButton button) {
+        button.setBackground(Color.BLACK); // Set background color to black
+        button.setForeground(Color.WHITE); // Set font color to white
+        button.setFont(button.getFont().deriveFont(Font.PLAIN, 14)); // Decrease font size
+        button.setMaximumSize(new Dimension(150, 30)); // Set maximum size
+        button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align horizontally
+    }
+    private void handleAlumniSignUp() {
         mainPanel.removeAll();
-        
-        // Creating panel for student options with GridBagLayout
-        JPanel studentOptionsPanel = new JPanel(new GridBagLayout());
+
+        // Creating panel for signup form with GridBagLayout
+        JPanel signupFormPanel = new JPanel(new GridBagLayout());
+        signupFormPanel.setBackground(Color.WHITE); // Set background color
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(5, 5, 5, 5); // Add some spacing between components
-        gbc.anchor = GridBagConstraints.CENTER;
-        
-        // Adding title label
-        JLabel titleLabel = new JLabel("Student Options:");
-        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 16)); // Increase font size and make it bold
-        studentOptionsPanel.add(titleLabel, gbc);
-        
-        // Adding login button
+        gbc.insets = new Insets(10, 10, 10, 10); // Increased spacing between components
+        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+
+        // Adding form fields
+        JLabel nameLabel = new JLabel("Name:");
+        signupFormPanel.add(nameLabel, gbc);
+        gbc.gridx++;
+        JTextField nameField = new JTextField(20);
+        signupFormPanel.add(nameField, gbc);
+
+        gbc.gridx = 0;
         gbc.gridy++;
-        JButton loginButton = new JButton("Login");
-        loginButton.setFont(loginButton.getFont().deriveFont(Font.PLAIN, 14)); // Decrease font size
-        loginButton.setPreferredSize(new Dimension(150, 30)); // Set preferred size
-        loginButton.addActionListener(new ActionListener() {
+        JLabel branchLabel = new JLabel("Branch:");
+        signupFormPanel.add(branchLabel, gbc);
+        gbc.gridx++;
+        JComboBox<String> branchDropdown = new JComboBox<>(new String[]{"Electrical Engineering", "Information Technology", "Mechanical Engineering", "Computer Science"});
+        signupFormPanel.add(branchDropdown, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel passingYearLabel = new JLabel("Passing Year:");
+        signupFormPanel.add(passingYearLabel, gbc);
+        gbc.gridx++;
+        // Dynamically generate years from 1990 to current year
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        Integer[] years = new Integer[currentYear - 1989];
+        for (int i = 1990; i <= currentYear; i++) {
+            years[i - 1990] = i;
+        }
+        JComboBox<Integer> passingYearDropdown = new JComboBox<>(years);
+        signupFormPanel.add(passingYearDropdown, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel domainLabel = new JLabel("Domain:");
+        signupFormPanel.add(domainLabel, gbc);
+        gbc.gridx++;
+        JTextField domainField = new JTextField(20);
+        signupFormPanel.add(domainField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel passwordLabel = new JLabel("Password:");
+        signupFormPanel.add(passwordLabel, gbc);
+        gbc.gridx++;
+        JPasswordField passwordField = new JPasswordField(20);
+        signupFormPanel.add(passwordField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel organisationLabel = new JLabel("Organisation:");
+        signupFormPanel.add(organisationLabel, gbc);
+        gbc.gridx++;
+        JTextField organisationField = new JTextField(20);
+        signupFormPanel.add(organisationField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel tagsLabel = new JLabel("Tags:");
+        signupFormPanel.add(tagsLabel, gbc);
+        gbc.gridx++;
+        JTextField tagsField = new JTextField(20);
+        signupFormPanel.add(tagsField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel idLabel = new JLabel("ID:");
+        signupFormPanel.add(idLabel, gbc);
+        gbc.gridx++;
+        JTextField idField = new JTextField(20);
+        signupFormPanel.add(idField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel gmailLabel = new JLabel("Gmail:");
+        signupFormPanel.add(gmailLabel, gbc);
+        gbc.gridx++;
+        JTextField gmailField = new JTextField(20);
+        signupFormPanel.add(gmailField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel contactLabel = new JLabel("Contact:");
+        signupFormPanel.add(contactLabel, gbc);
+        gbc.gridx++;
+        JTextField contactField = new JTextField(20);
+        signupFormPanel.add(contactField, gbc);
+
+        // Adding submit button
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridwidth = 2; // Spanning two columns
+        gbc.anchor = GridBagConstraints.CENTER; // Align button to the center
+        JButton submitButton = new JButton("Submit");
+        submitButton.setBackground(Color.GREEN); // Set button background color
+        submitButton.setForeground(Color.BLACK); // Set button text color
+        submitButton.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25)); // Add padding
+        submitButton.setFocusPainted(false); // Remove focus border
+        submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                handleStudentLogin();
+                String name = nameField.getText();
+                String branch = (String) branchDropdown.getSelectedItem();
+                Integer  passingYear = (int)passingYearDropdown.getSelectedItem();
+                String domain = domainField.getText();
+                String password = new String(passwordField.getPassword());
+                String organisation = organisationField.getText();
+                String id = idField.getText();
+                String gmail = gmailField.getText();
+                String contact = contactField.getText();
+                String tagsString = tagsField.getText();
+                ArrayList<String> tags = new ArrayList<>(Arrays.asList(tagsString.split("\\s*,\\s*")));
+
+                // Validate input...
+                if (name.isEmpty() || branch.isEmpty() ||domain.isEmpty() ||
+                    password.isEmpty() || organisation.isEmpty() || tags.isEmpty() || id.isEmpty() ||
+                    gmail.isEmpty() || contact.isEmpty()) {
+                	
+                    JOptionPane.showMessageDialog(mainPanel, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if(alumniDB.alumniMap.containsKey(id)) {
+                	JOptionPane.showMessageDialog(mainPanel, "Username Alreaady Registered!.");
+                	return ;
+                }
+                if(alumniDB.alumniMap.containsKey(gmail)) {
+                	JOptionPane.showMessageDialog(mainPanel, "E-mail Id Alreaady Registered!.");
+                	return ;
+                }
+                // Further validation can be added as needed
+
+                // Add alumni to database or perform any other action here
+                // For demonstration purposes, let's print the entered data
+//                System.out.println("Alumni Details:");
+//                System.out.println("Name: " + name);
+//                System.out.println("Branch: " + branch);
+//                System.out.println("Passing Year: " + passingYear);
+//                System.out.println("Domain: " + domain);
+//                System.out.println("Organisation: " + organisation);
+//                System.out.println("Tags: " + tags);
+//                System.out.println("ID: " + id);
+//                System.out.println("Gmail: " + gmail);
+//                System.out.println("Contact: " + contact);
+                
+                alumniDB.alumniMap.put(id,new Alumni( name,branch ,passingYear.toString(),domain,organisation,new ArrayList<>(),id,gmail,contact,password));
+                JOptionPane.showMessageDialog(mainPanel, "Account successfully created!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                displayAlumniOptions();
             }
         });
-        studentOptionsPanel.add(loginButton, gbc);
 
-        // Adding signup button
+        signupFormPanel.add(submitButton, gbc);
+
+        // Adding cancel button
         gbc.gridy++;
-        JButton signUpButton = new JButton("Sign Up");
-        signUpButton.setFont(signUpButton.getFont().deriveFont(Font.PLAIN, 14)); // Decrease font size
-        signUpButton.setPreferredSize(new Dimension(150, 30)); // Set preferred size
-        signUpButton.addActionListener(new ActionListener() {
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.setBackground(Color.GRAY); // Set button background color
+        cancelButton.setForeground(Color.WHITE); // Set button text color
+        cancelButton.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25)); // Add padding
+        cancelButton.setFocusPainted(false); // Remove focus border
+        cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                handleStudentSignup();
+                displayAlumniOptions(); // Go back to the signup/login options
             }
         });
-        studentOptionsPanel.add(signUpButton, gbc);
+        signupFormPanel.add(cancelButton, gbc);
 
-        // Adding back button
-        gbc.gridy++;
-        JButton backButton = new JButton("Back");
-        backButton.setFont(backButton.getFont().deriveFont(Font.PLAIN, 14)); // Decrease font size
-        backButton.setPreferredSize(new Dimension(150, 30)); // Set preferred size
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayMainMenu(); // Call method to display main menu
-            }
-        });
-        studentOptionsPanel.add(backButton, gbc);
-
-        // Add student options panel to main panel
-        mainPanel.add(studentOptionsPanel);
+        // Add signup form panel to main panel
+        mainPanel.add(signupFormPanel);
 
         mainPanel.revalidate();
         mainPanel.repaint();
@@ -350,7 +485,7 @@ public class Main extends JFrame {
         					branch, yearOfStudy, gpa,areaOfInterest ,workExperience ,password));
         	        System.out.println(StudentDB.studentsList.get(StudentDB.studentsList.size()-1).name+" "+StudentDB.studentsList.get(StudentDB.studentsList.size()-1).name  );
         	        JOptionPane.showMessageDialog(mainPanel, "Account successfully created!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        	        displayStudentLoginSignup();
+        	        displayStudentOptions();
         	        // Open new frame or perform any other action here
         	    }
         	});
@@ -367,7 +502,7 @@ public class Main extends JFrame {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                displayStudentLoginSignup(); // Go back to the signup/login options
+                displayStudentOptions(); // Go back to the signup/login options
             }
         });
         signupFormPanel.add(cancelButton, gbc);
@@ -387,32 +522,105 @@ public class Main extends JFrame {
     }
     private void displayAlumniOptions() {
         mainPanel.removeAll();
-        mainPanel.add(new JLabel("Alumni Options:"));
+        mainPanel.setLayout(new GridBagLayout());
 
-        // Adding buttons for alumni options
-        String[] alumniOptions = {"Login", "Sign Up", "Exit"};
-        for (int i = 0; i < alumniOptions.length; i++) {
-            JButton button = new JButton(alumniOptions[i]);
-            int finalI = i;
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (finalI == 0) {
-                        // Login button clicked
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(20, 20, 20, 20); // Add some padding
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        JLabel titleLabel = new JLabel("Alumni Options");
+        titleLabel.setFont(new Font("Brush Script MT", Font.BOLD, 46)); // Increase the font size to 36
+        mainPanel.add(titleLabel, gbc);
+
+        gbc.gridy++;
+
+        String[] alumniOptions = {"Login", "Sign Up", "Back"};
+        for (String option : alumniOptions) {
+            JButton button = new JButton(option);
+            button.setPreferredSize(new Dimension(200, 40));
+            button.setFont(new Font("Palatino", Font.BOLD, 18));
+            // Change button background color here
+            button.setBackground(new Color(41, 128, 185)); // Orange color
+            button.setForeground(Color.WHITE);
+            button.setFocusPainted(false);
+            button.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the button
+
+            button.addActionListener(e -> {
+                switch (option) {
+                    case "Login":
                         handleAlumniLogin();
-                    } else if (finalI == 1) {
-                        // Sign Up button clicked
-                        JOptionPane.showMessageDialog(Main.this, "Alumni Sign Up");
-                    } else {
-                        // Exit button clicked
-                        JOptionPane.showMessageDialog(Main.this, "Exiting Alumni");
-                        System.exit(0);
-                    }
+                        break;
+                    case "Sign Up":
+                    	handleAlumniSignUp();
+                        break;
+                    case "Back":
+                        displayMainMenu();
+                        break;
                 }
             });
-            optionButtons[i] = button;
-            mainPanel.add(button);
+
+            gbc.gridy++;
+            mainPanel.add(button, gbc);
         }
+
+        // Add border to mainPanel
+        Border border = BorderFactory.createLineBorder(new Color(41, 128, 185), 2);
+        mainPanel.setBorder(border);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+    
+    private void displayStudentLoginPage() {
+        mainPanel.removeAll();
+        mainPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(20, 20, 20, 20); // Add some padding
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        JLabel titleLabel = new JLabel("Student Options");
+        titleLabel.setFont(new Font("Brush Script MT", Font.BOLD, 46)); // Increase the font size to 36
+        mainPanel.add(titleLabel, gbc);
+
+        gbc.gridy++;
+
+        String[] alumniOptions = {"Login", "Sign Up", "Back"};
+        for (String option : alumniOptions) {
+            JButton button = new JButton(option);
+            button.setPreferredSize(new Dimension(200, 40));
+            button.setFont(new Font("Palatino", Font.BOLD, 18));
+            // Change button background color here
+            button.setBackground(new Color(41, 128, 185)); // Orange color
+            button.setForeground(Color.WHITE);
+            button.setFocusPainted(false);
+            button.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the button
+
+            button.addActionListener(e -> {
+                switch (option) {
+                    case "Login":
+                        handleStudentLogin();
+                        break;
+                    case "Sign Up":
+                        handleStudentSignup();
+                        break;
+                    case "Back":
+                        displayMainMenu();
+                        break;
+                }
+            });
+
+            gbc.gridy++;
+            mainPanel.add(button, gbc);
+        }
+
+        // Add border to mainPanel
+        Border border = BorderFactory.createLineBorder(new Color(41, 128, 185), 2);
+        mainPanel.setBorder(border);
 
         mainPanel.revalidate();
         mainPanel.repaint();
@@ -443,7 +651,7 @@ public class Main extends JFrame {
         gbc.gridy++;
         
         // Adding buttons for student options
-        String[] studentOptions = {"See all alumni", "See alumni based on preference", "See alumni based on username", "See all posts", "Exit"};
+        String[] studentOptions = {"See all alumni", "See alumni based on preference", "See alumni based on username", "See all posts", "Back"};
         Dimension maxButtonSize = new Dimension(0, 0); // Initial maximum button size
         for (String option : studentOptions) {
             JButton button = new JButton(option);
@@ -451,6 +659,9 @@ public class Main extends JFrame {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                	if(option.equals("Back")) 
+                	displayStudentLoginPage();
+                	else
                     handleStudentOption(option);
                 }
             });
@@ -490,7 +701,7 @@ public class Main extends JFrame {
         for (String option : preferenceOptions) {
             JButton button = new JButton(option);
             if (option.equals("Back")) {
-                button.addActionListener(e -> displayStudentOptions()); // Display student options on Back button click
+                button.addActionListener(e -> displayMainMenu()); // Display student options on Back button click
             } else {
                 button.addActionListener(e -> {
                     handlePreferenceOption(option);
@@ -541,22 +752,18 @@ private void handlePreferenceOption(String preferenceOption) {
     switch(preferenceOption) {
         case "Based on branch":
         	seeAlumniByPreference(1);
-        	//displaySpecificAlumni(seeAlumniByPreference(1) ) ;
         	break;
         case "Based on passing year":
         	seeAlumniByPreference(2);
-            // Implement based on passing year logic
             break;
         case "Based on domain":
         	seeAlumniByPreference(3);
-            // Implement based on domain logic
             break;
         case "Based on organization":
         	seeAlumniByPreference(4);
-            // Implement based on organization logic
             break;
-        default:
-            // Handle default case
+        case "Back":
+        	displayMainMenu();
             break;
     }
 }
@@ -577,7 +784,7 @@ private void handlePreferenceOption(String preferenceOption) {
             case "See all posts":
                 alumniDB.printAllPosts();
                 break;
-            case "Exit":
+            case "Back":
                 JOptionPane.showMessageDialog(Main.this, "Exiting Student Options");
                 break;
             default:
@@ -833,7 +1040,7 @@ private void handlePreferenceOption(String preferenceOption) {
         gbc.gridy = 0;
         JLabel nameLabel = createLabel("<html><font size='8'><b><u>" + alumni.name + "</u></b></font></html>");
         detailsPanel.add(nameLabel, gbc);
-
+        
         gbc.gridy++;
         detailsPanel.add(createLabel("<html><b>Branch:</b> " + alumni.branch + "</html>"), gbc);
 
