@@ -1,5 +1,5 @@
 package buffer;
-
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -56,7 +56,11 @@ AlumniDB() {
 
         Post post = new Post("6", "Embark Your Coding Journey!","25-01-2023", "01-02-2023","02-02-2023","ArE",postTags);
 
-        
+       
+        Post post2 = new Post("9", "Ethical Hacking Workshop!","25-02-2024", "21-05-2024","02-02-2023","ArE",postTags);
+        Post post3 = new Post("10", "Intership Opportunity For 2nd year Undergraduates!","25-02-2024", "21-05-2024","02-02-2023","ArE",postTags);
+        Post post4 = new Post("11", "Seminar On Company Culture!","25-02-2024", "21-05-2024","02-02-2023","ArE",postTags);
+        Post post5 = new Post("12", "Ai ML introduction Session!","25-02-2024", "21-05-2024","02-02-2023","ArE",postTags);
 
 
 
@@ -69,8 +73,10 @@ AlumniDB() {
                 "pooja@example.com", "2345678901"," Pooja_453$!" );
 
         alumni.posts.add(post);
-
-
+        alumni.posts.add(post2);
+        alumni.posts.add(post3);
+        alumni.posts.add(post4);
+        alumni.posts.add(post5);
 
         alumniMap.put("Pooja_453", alumni);
 
@@ -78,7 +84,7 @@ AlumniDB() {
 
         postTags = new ArrayList<>(Arrays.asList ("#algorithms", "#problem-solving", "#data-structures"));
 
-        Post post2 = new Post("2", "Mastering Algorithms", "10-04-2023", "15-04-2023", "16-04-2023",
+         post2 = new Post("2", "Mastering Algorithms", "10-04-2023", "15-04-2023", "16-04-2023",
 
                 "Dive deep into the world of algorithms and sharpen your problem-solving skills. Join us on this algorithmic journey!", postTags);
 
@@ -204,7 +210,7 @@ AlumniDB() {
 
 	}
 
-	LinkedList<AlumniTree> seeAlumniByBranch(AlumniTree root) {
+	static LinkedList<AlumniTree> seeAlumniByBranch(AlumniTree root) {
 
 		LinkedList<AlumniTree> child = root.child;
 
@@ -217,7 +223,7 @@ AlumniDB() {
 
 	}
 
-	LinkedList<AlumniTree> seeAlumniByDomain(AlumniTree root) {
+	static LinkedList<AlumniTree> seeAlumniByDomain(AlumniTree root) {
 
 		LinkedList<AlumniTree> child = root.child;
 
@@ -249,7 +255,7 @@ AlumniDB() {
 		}
 	}
 
-	LinkedList<AlumniTree> seeAlumniByOrganisation(AlumniTree root) {
+	static LinkedList<AlumniTree> seeAlumniByOrganisation(AlumniTree root) {
 
 		LinkedList<AlumniTree> child = root.child;
 
@@ -262,7 +268,7 @@ AlumniDB() {
 
 	}
 
-	LinkedList<AlumniTree> seeAlumniByPassingYear(AlumniTree root) {
+	static LinkedList<AlumniTree> seeAlumniByPassingYear(AlumniTree root) {
 
 		LinkedList<AlumniTree> child = root.child;
 
@@ -311,7 +317,7 @@ AlumniDB() {
 
 	String[] tagArray = input.nextLine().split(",");
 
-	ArrayList<String> postTags = new ArrayList<>(List.of(tagArray));
+	ArrayList<String> postTags = new ArrayList<>(Arrays.asList(tagArray));
 
 	// Create the new post
 
@@ -490,10 +496,6 @@ AlumniDB() {
 			System.out.println("Branch      : " + alumni.branch);
 			System.out.println("Passing Year: " + alumni.passingYear);
 			System.out.println("Job Profile : " + alumni.domain);
-			//System.out.println("Organisation: " + alumni.organisation);
-			//System.out.println("Tags        : " + alumni.tags);
-			//System.out.println("Gmail       : " + alumni.gmail);
-			//System.out.println("Contact     : " + alumni.contact);
 			System.out.println("-------------------------------------");
 		} else {
 			System.out.println("Alumni with ID " + id + " not found.");
