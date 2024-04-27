@@ -1,4 +1,3 @@
-
 package buffer;
 
 import javax.swing.*;
@@ -7,6 +6,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class Main extends JFrame {
     private static JPanel mainPanel;
     private JButton[] optionButtons;
     private AlumniDB alumniDB;
+    private AlumniTree alumniTree;
     private StudentDB studentDB;
 
     private boolean loggedIn = false;
@@ -58,7 +60,7 @@ public class Main extends JFrame {
 
         alumniDB = new AlumniDB();
         studentDB = new StudentDB();
-
+        alumniTree = new AlumniTree("");
         // Initialize option buttons array
         optionButtons = new JButton[5];
 
@@ -74,7 +76,7 @@ public class Main extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Load the background image
-                ImageIcon backgroundImage = new ImageIcon("C:\\Users\\Sweta Thakre\\Desktop\\Buffer\\Buffer\\src\\buffer\\CumminsImage.jpg");
+                ImageIcon backgroundImage = new ImageIcon("C:/Users/garge/OneDrive/Buffer 5.0/buffer/src/buffer/CumminsImage.png");
                 // Draw the background image
                 g.drawImage(backgroundImage.getImage(), 0, 0,getWidth(), getHeight(), this);
                 // Draw a translucent overlay
@@ -297,7 +299,14 @@ public class Main extends JFrame {
 //                System.out.println("Gmail: " + gmail);
 //                System.out.println("Contact: " + contact);
                 
+                
                 alumniDB.alumniMap.put(id,new Alumni( name,branch ,passingYear.toString(),domain,organisation,new ArrayList<>(),id,gmail,contact,password));
+                
+                alumniTree.addDomain(id,domain);
+                alumniTree.addOrganisation(id,domain);
+                alumniTree.addPassingYear(id,passingYear.toString());
+                alumniTree.addBranch(id,branch);
+
                 JOptionPane.showMessageDialog(mainPanel, "Account successfully created!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 displayAlumniOptions();
             }
@@ -638,31 +647,37 @@ public class Main extends JFrame {
         
         // Creating panel for student options with GridBagLayout
         JPanel studentOptionsPanel = new JPanel(new GridBagLayout());
+        studentOptionsPanel.setBackground(new Color(240, 240, 240)); // Light gray background
+        
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(5, 5, 5, 5); // Add some spacing between components
+        gbc.insets = new Insets(10, 10, 10, 10); // Add some spacing between components
         gbc.anchor = GridBagConstraints.CENTER;
         
         JLabel titleLabel = new JLabel("Student Options:");
-        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 16)); // Increase font size and make it bold
+        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 20)); // Increase font size and make it bold
+        titleLabel.setForeground(new Color(41, 128, 185)); // Set text color
         studentOptionsPanel.add(titleLabel, gbc);
         
         gbc.gridy++;
         
         // Adding buttons for student options
         String[] studentOptions = {"See all alumni", "See alumni based on preference", "See alumni based on username", "See all posts", "Back"};
-        Dimension maxButtonSize = new Dimension(0, 0); // Initial maximum button size
+        Dimension buttonSize = new Dimension(300, 50); // Set the size for all buttons
         for (String option : studentOptions) {
             JButton button = new JButton(option);
-            button.setPreferredSize(new Dimension(300, 50)); // Set preferred size for buttons
+            button.setPreferredSize(buttonSize); // Set preferred size for buttons
+            button.setBackground(new Color(41, 128, 185)); // Set button background color
+            button.setForeground(Color.WHITE); // Set button text color
+            button.setFont(button.getFont().deriveFont(Font.BOLD, 16)); // Set button text font
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                 	if(option.equals("Back")) 
-                	displayStudentLoginPage();
+                	    displayStudentLoginPage();
                 	else
-                    handleStudentOption(option);
+                        handleStudentOption(option);
                 }
             });
             studentOptionsPanel.add(button, gbc);
@@ -672,10 +687,513 @@ public class Main extends JFrame {
         // Set the same size for all buttons by adjusting grid width and height
         gbc.weightx = 1.0; // Make buttons expand horizontally
         gbc.weighty = 1.0; // Make buttons expand vertically
-        studentOptionsPanel.setPreferredSize(new Dimension(250, 200)); // Set preferred size for panel
+        studentOptionsPanel.setPreferredSize(new Dimension(350, 300)); // Set preferred size for panel
         
         // Add student options panel to main panel
         mainPanel.add(studentOptionsPanel);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+
+    private void handlePostSignup(String u_name) {
+        mainPanel.removeAll();
+
+        // Creating panel for post signup form with GridBagLayout
+        JPanel postSignupFormPanel = new JPanel(new GridBagLayout());
+        postSignupFormPanel.setBackground(new Color(255, 240, 245)); // Light pink background
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10); // Increased spacing between components
+        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+
+        // Adding form fields
+        
+        // Adding form fields
+        JLabel alumniIdLabel = new JLabel("Alumni Id:");
+        alumniIdLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(alumniIdLabel, gbc);
+        gbc.gridx++;
+        JTextField alumniIdField = new JTextField(20);
+        alumniIdField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        alumniIdField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(alumniIdField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel idLabel = new JLabel("ID:");
+        idLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(idLabel, gbc);
+        gbc.gridx++;
+        JTextField idField = new JTextField(20);
+        idField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        idField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(idField, gbc);
+
+        // Repeat the same pattern for other form fields...
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel titleLabel = new JLabel("Title:");
+        titleLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(titleLabel, gbc);
+        gbc.gridx++;
+        JTextField titleField = new JTextField(20);
+        titleField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        titleField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(titleField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel dateOfEventLabel = new JLabel("Date of Event:");
+        dateOfEventLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(dateOfEventLabel, gbc);
+        gbc.gridx++;
+        JLabel yearLabel = new JLabel("(YYYY-MM-DD)    Year:");
+        yearLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(yearLabel, gbc);
+        gbc.gridx++;
+        // Using dropdowns for year, month, and date
+        // For demonstration purposes, assuming years from 2024 to 2030
+        String[] years = {"2024", "2025", "2026", "2027", "2028", "2029", "2030"};
+        JComboBox<String> yearComboBox = new JComboBox<>(years);
+        yearComboBox.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(yearComboBox, gbc);
+        gbc.gridx++;
+        JLabel monthLabel = new JLabel("Month:");
+        monthLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(monthLabel, gbc);
+        gbc.gridx++;
+        String[] months = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+        JComboBox<String> monthComboBox = new JComboBox<>(months);
+        monthComboBox.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(monthComboBox, gbc);
+        gbc.gridx++;
+        JLabel dayLabel = new JLabel("Day:");
+        dayLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(dayLabel, gbc);
+        gbc.gridx++;
+        // For simplicity, assuming 31 days in all months
+        String[] days = new String[31];
+        for (int i = 0; i < 31; i++) {
+            days[i] = String.format("%02d", i + 1);
+        }
+        JComboBox<String> dayComboBox = new JComboBox<>(days);
+        dayComboBox.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(dayComboBox, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel deadlineLabel = new JLabel("Deadline of Registration:");
+        deadlineLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(deadlineLabel, gbc);
+        gbc.gridx++;
+        JLabel deadlineYearLabel = new JLabel("(YYYY-MM-DD)    Year:");
+        deadlineYearLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(deadlineYearLabel, gbc);
+        gbc.gridx++;
+        // Ensure deadline is after the current date
+        LocalDate currentDate = LocalDate.now();
+        String[] deadlineYears = new String[7]; // 7 years from current year
+        for (int i = 0; i < 7; i++) {
+            deadlineYears[i] = String.valueOf(currentDate.getYear() + i);
+        }
+        JComboBox<String> deadlineYearComboBox = new JComboBox<>(deadlineYears);
+        deadlineYearComboBox.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(deadlineYearComboBox, gbc);
+        gbc.gridx++;
+        JLabel deadlineMonthLabel = new JLabel("Month:");
+        deadlineMonthLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(deadlineMonthLabel, gbc);
+        gbc.gridx++;
+        JComboBox<String> deadlineMonthComboBox = new JComboBox<>(months);
+        deadlineMonthComboBox.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(deadlineMonthComboBox, gbc);
+        gbc.gridx++;
+        JLabel deadlineDayLabel = new JLabel("Day:");
+        deadlineDayLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(deadlineDayLabel, gbc);
+        gbc.gridx++;
+        JComboBox<String> deadlineDayComboBox = new JComboBox<>(days);
+        deadlineDayComboBox.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(deadlineDayComboBox, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel descriptionLabel = new JLabel("Post Description:");
+        descriptionLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(descriptionLabel, gbc);
+        gbc.gridx++;
+        JTextField descriptionField = new JTextField(20);
+        descriptionField.setPreferredSize(new Dimension(200, 100)); // Adjust width and height
+        descriptionField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(descriptionField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel tagsLabel = new JLabel("Post Tags (comma-separated):");
+        tagsLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(tagsLabel, gbc);
+        gbc.gridx++;
+        JTextField tagsField = new JTextField(20);
+        tagsField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        tagsField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        postSignupFormPanel.add(tagsField, gbc);
+
+        // Adding submit button
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridwidth = 4; // Spanning four columns
+        gbc.anchor = GridBagConstraints.CENTER; // Align button to the center
+        JButton submitButton = new JButton("Submit");
+        submitButton.setBackground(new Color(124, 252, 200)); // Light green color
+        submitButton.setForeground(Color.WHITE); // Set button text color
+        submitButton.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25)); // Add padding
+        submitButton.setFocusPainted(false); // Remove focus border
+        submitButton.setFont(new Font("Arial", Font.BOLD, 16)); // Setting font
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	 if (idField.getText().isEmpty() || titleField.getText().isEmpty() || descriptionField.getText().isEmpty() || tagsField.getText().isEmpty()) {
+                     JOptionPane.showMessageDialog(mainPanel, "Please fill in all the fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                 } 
+            	
+            	 else {
+                	 String id = idField.getText();
+                     String title = titleField.getText();
+                     String alumniId = alumniIdField.getText();
+                     String description = descriptionField.getText();
+                     String tagsInput = tagsField.getText();
+                     String[] tagsArray = tagsInput.split("\\s*,\\s*");
+                     ArrayList<String> tagsList = new ArrayList<>(Arrays.asList(tagsArray));
+
+                     String year = (String) yearComboBox.getSelectedItem();
+                     String month = (String) monthComboBox.getSelectedItem();
+                     String day = (String) dayComboBox.getSelectedItem();
+                     String deadlineYear = (String) deadlineYearComboBox.getSelectedItem();
+                     String deadlineMonth = (String) deadlineMonthComboBox.getSelectedItem();
+                     String deadlineDay = (String) deadlineDayComboBox.getSelectedItem();
+                     LocalDate currentDate = LocalDate.now();
+                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                     String CurrentDate = currentDate.format(formatter);
+                     
+                     alumniDB.alumniMap.get(alumniId).posts.add(new Post(id,title,CurrentDate, (deadlineYear + "-" + deadlineMonth + "-" + deadlineDay),(year + "-" + month + "-" + day),description,tagsList));
+                     JOptionPane.showMessageDialog(mainPanel, "Posted Successfully !");
+                     showAlumniOptions(u_name);
+                     
+                 }            
+            }
+        });
+        postSignupFormPanel.add(submitButton, gbc);
+
+        // Adding cancel button
+        gbc.gridy++;
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.setBackground(Color.GRAY); // Set button background color
+        cancelButton.setForeground(Color.WHITE); // Set button text color
+        cancelButton.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25)); // Add padding
+        cancelButton.setFocusPainted(false); // Remove focus border
+        cancelButton.setFont(new Font("Arial", Font.BOLD, 16)); // Setting font
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAlumniOptions(u_name);
+            }
+        });
+        postSignupFormPanel.add(cancelButton, gbc);
+
+        // Add post signup form panel to main panel
+        mainPanel.add(postSignupFormPanel);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    private void showAlumniOptions(String u_name) {
+        mainPanel.removeAll();
+        mainPanel.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(20, 20, 20, 20); // Add some padding
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        JLabel titleLabel = new JLabel("Alumni Options");
+        titleLabel.setFont(new Font("Brush Script MT", Font.BOLD, 46)); // Increase the font size
+        mainPanel.add(titleLabel, gbc);
+
+        gbc.gridy++;
+
+        String[] alumniOptions = {"Create a post", "Update Account", "Delete Account", "See Registrations", "Back"};
+        for (String option : alumniOptions) {
+            JButton button = new JButton(option);
+            button.setPreferredSize(new Dimension(250, 40));
+            button.setFont(new Font("Palatino", Font.BOLD, 18));
+            // Change button background color here
+            button.setBackground(new Color(41, 128, 185)); // Orange color
+            button.setForeground(Color.WHITE);
+            button.setFocusPainted(false);
+            button.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding inside the button
+
+            button.addActionListener(e -> {
+                switch (option) {
+                    case "Create a post":
+                    	handlePostSignup(u_name);
+                    	break;
+                    case "Update Account":
+                    	handleUpdateAccount(alumniDB.alumniMap.get(u_name));
+                        // Implement logic for updating account
+                        break;
+                    case "Delete Account":
+                    	 String enteredUsername = JOptionPane.showInputDialog(mainPanel, "Enter Username:");
+                    	    String enteredPassword = JOptionPane.showInputDialog(mainPanel, "Enter Password:");
+
+                    	    // Check if entered username and password match the alumni's credentials
+                    	    if (enteredUsername != null && enteredPassword != null) {
+                    	        if (alumniDB.alumniMap.containsKey(u_name) && enteredUsername.equals(u_name) && enteredPassword.equals(alumniDB.alumniMap.get(u_name).password)) {
+                    	        	Alumni a = alumniDB.alumniMap.get(u_name);
+                    	        	
+                    	        	alumniTree.deleteDomain(a.domain,a.id);
+                    	        	alumniTree.deleteOrganisation(a.organisation,a.id);
+                    	        	alumniTree.deleteBranch(a.branch,a.id);
+                    	        	alumniTree.deletePassingYear(a.passingYear,a.id);
+                    	        	
+                    	        	alumniDB.alumniMap.remove(u_name);
+                    	            JOptionPane.showMessageDialog(mainPanel, "Alumni account deleted successfully!");
+                    	        } else {
+                    	            // Display error message if username or password is incorrect
+                    	            JOptionPane.showMessageDialog(mainPanel, "Incorrect username or password. Please try again.");
+                    	        }
+                    	    } else {
+                    	        // Display error message if username or password is empty
+                    	        JOptionPane.showMessageDialog(mainPanel, "Please enter both username and password.");
+                    	    }
+                        break;
+                    case "See Registrations":
+                        // Implement logic for seeing registrations
+                        break;
+                    case "Back":
+                    	displayAlumniOptions();
+                        break;
+                }
+            });
+
+            gbc.gridy++;
+            mainPanel.add(button, gbc);
+        }
+
+        // Add border to mainPanel
+        Border border = BorderFactory.createLineBorder(new Color(41, 128, 185), 2);
+        mainPanel.setBorder(border);
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+    private void handleUpdateAccount(Alumni alumniToUpdate) {
+        mainPanel.removeAll();
+        mainPanel.setLayout(new GridBagLayout());
+
+        // Creating form panel with GridBagLayout
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(new Color(255, 240, 245)); // Light pink background
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10); // Increased spacing between components
+        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+
+        // Add labels and text fields for each attribute
+        JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        formPanel.add(nameLabel, gbc);
+
+        JTextField nameField = new JTextField(alumniToUpdate.name, 20);
+        nameField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        nameField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 1;
+        formPanel.add(nameField, gbc);
+
+        JLabel domainLabel = new JLabel("Domain:");
+        domainLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        formPanel.add(domainLabel, gbc);
+
+        JTextField domainField = new JTextField(alumniToUpdate.domain, 20);
+        domainField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        domainField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 1;
+        formPanel.add(domainField, gbc);
+
+     
+        // Adding "Organisation" label and text field
+        JLabel organisationLabel = new JLabel("Organisation:");
+        organisationLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        formPanel.add(organisationLabel, gbc);
+
+        JTextField organisationField = new JTextField(alumniToUpdate.organisation, 20);
+        organisationField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        organisationField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 1;
+        formPanel.add(organisationField, gbc);
+
+        // Adding "ID" label and text field
+        JLabel idLabel = new JLabel("ID:");
+        idLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        formPanel.add(idLabel, gbc);
+
+        JTextField idField = new JTextField(alumniToUpdate.id, 20);
+        idField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        idField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 1;
+        formPanel.add(idField, gbc);
+
+        // Adding "Gmail" label and text field
+        JLabel gmailLabel = new JLabel("Gmail:");
+        gmailLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        formPanel.add(gmailLabel, gbc);
+
+        JTextField gmailField = new JTextField(alumniToUpdate.gmail, 20);
+        gmailField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        gmailField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 1;
+        formPanel.add(gmailField, gbc);
+
+        // Adding "Contact" label and text field
+        JLabel contactLabel = new JLabel("Contact:");
+        contactLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        formPanel.add(contactLabel, gbc);
+
+        JTextField contactField = new JTextField(alumniToUpdate.contact, 20);
+        contactField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        contactField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 1;
+        formPanel.add(contactField, gbc);
+
+        // Adding "Password" label and text field
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        formPanel.add(passwordLabel, gbc);
+
+        JTextField passwordField = new JTextField(alumniToUpdate.password, 20);
+        passwordField.setPreferredSize(new Dimension(200, 30)); // Adjust width and height
+        passwordField.setFont(new Font("Arial", Font.PLAIN, 16)); // Setting font
+        gbc.gridx = 1;
+        formPanel.add(passwordField, gbc);
+
+        mainPanel.add(formPanel);
+
+        // Adding buttons panel
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton updateButton = new JButton("Update");
+        updateButton.setBackground(new Color(124, 252, 200)); // Light green color
+        updateButton.setForeground(Color.WHITE); // Set button text color
+        updateButton.setFont(new Font("Arial", Font.BOLD, 16)); // Setting font
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Logic to update alumni account
+            	   String updatedName = nameField.getText();
+                   String updatedDomain = domainField.getText();
+                   String updatedOrganisation = organisationField.getText();
+                   String updatedID = idField.getText();
+                   String updatedGmail = gmailField.getText();
+                   String updatedContact = contactField.getText();
+                   String updatedPassword = passwordField.getText();
+
+                   // Check if any of the values have changed
+                   boolean changed = false;
+                   if (!updatedID.equals(alumniToUpdate.id)) {
+                       if(!alumniDB.alumniMap.containsKey(updatedID)) {
+                    	   
+                    	   alumniDB.alumniMap.remove(updatedID);
+                    	   alumniDB.alumniMap.put(updatedID,new Alumni(updatedName ,alumniToUpdate.branch,alumniToUpdate.passingYear,alumniToUpdate.domain,updatedOrganisation,alumniToUpdate.tags,updatedID,updatedGmail,updatedContact,updatedPassword));
+                    	   alumniTree.deleteDomain(alumniToUpdate.domain,alumniToUpdate.id);
+                    	   alumniTree.deleteOrganisation(alumniToUpdate.organisation,alumniToUpdate.id);
+                    	   alumniTree.deletePassingYear(alumniToUpdate.passingYear,alumniToUpdate.id);
+                    	   alumniTree.deleteBranch(alumniToUpdate.branch,alumniToUpdate.id);
+                    	   
+                    	   alumniTree.addDomain(updatedDomain,updatedID);
+                    	   alumniTree.addOrganisation(updatedOrganisation,updatedID);
+                    	   alumniTree.addPassingYear(alumniToUpdate.passingYear,updatedID);
+                    	   alumniTree.addBranch(alumniToUpdate.branch,updatedID);
+                    	   
+                       }
+                   }else {
+                	   
+                   if (!updatedName.equals(alumniToUpdate.name)) {
+                	   
+                       alumniToUpdate.name = updatedName;
+                       changed = true;
+                   }
+                   if (!updatedDomain.equals(alumniToUpdate.domain)) {
+                	   
+                	   alumniTree.deleteDomain(alumniToUpdate.domain,alumniToUpdate.id);
+                	   alumniTree.addDomain(updatedDomain,alumniToUpdate.id);
+
+                       alumniToUpdate.domain = updatedDomain;
+                       
+                       changed = true;
+                   }
+                   if (!updatedOrganisation.equals(alumniToUpdate.organisation)) {
+                	   
+                	   alumniTree.deleteOrganisation(alumniToUpdate.organisation,alumniToUpdate.id);
+                	   alumniTree.addOrganisation(updatedOrganisation,alumniToUpdate.id);
+                	   
+                       alumniToUpdate.organisation = updatedOrganisation;
+
+                	   changed = true;
+                   }
+                  
+                   if (!updatedGmail.equals(alumniToUpdate.gmail)) {
+                       alumniToUpdate.gmail = updatedGmail;
+                       changed = true;
+                   }
+                   if (!updatedContact.equals(alumniToUpdate.contact)) {
+                       alumniToUpdate.contact = updatedContact;
+                       changed = true;
+                   }
+                   if (!updatedPassword.equals(alumniToUpdate.password)) {
+                       alumniToUpdate.password = updatedPassword;
+                       changed = true;
+                   }
+                   }
+   	            JOptionPane.showMessageDialog(mainPanel, "U");
+                   showAlumniOptions(updatedID);
+                }                          
+        });
+
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.setBackground(new Color(255, 99, 71)); // Tomato color
+        cancelButton.setForeground(Color.WHITE); // Set button text color
+        cancelButton.setFont(new Font("Arial", Font.BOLD, 16)); // Setting font
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Logic to go back to the main page
+                // For example, if mainPanel is the container for the main page, you can set it visible here
+                showAlumniOptions(idField.getText());
+                // You may need to hide or dispose the current window/dialog where the update form is displayed
+            }
+        });
+
+        buttonsPanel.add(updateButton);
+        buttonsPanel.add(cancelButton);
+        mainPanel.add(buttonsPanel);
 
         mainPanel.revalidate();
         mainPanel.repaint();
@@ -779,7 +1297,11 @@ private void handlePreferenceOption(String preferenceOption) {
                 break;
             case "See alumni based on username":
                 String uname = JOptionPane.showInputDialog(Main.this, "Enter Alumni Username:");
-                alumniDB.displayAlumniDetailsById(uname);
+                if(alumniDB.alumniMap.containsKey(uname))
+                displayAlumniDetails(alumniDB.alumniMap.get(uname));
+                else
+                    JOptionPane.showMessageDialog(Main.this, "Incorrect Username");
+
                 break;
             case "See all posts":
                 alumniDB.printAllPosts();
@@ -799,6 +1321,7 @@ private void handlePreferenceOption(String preferenceOption) {
         // Check credentials
         if (alumniDB.checkAlumni(username, password)) {
             JOptionPane.showMessageDialog(Main.this, "Alumni Login Successful!");
+            showAlumniOptions(username);
             // Add your logic to proceed with alumni logged in
         } else {
             JOptionPane.showMessageDialog(Main.this, "Invalid Alumni Username or Password.");
@@ -819,9 +1342,7 @@ private void handlePreferenceOption(String preferenceOption) {
         }
     }
 
-   
     private void displayAllAlumni() {
-        // Clear the panel
         mainPanel.removeAll();
 
         // Set layout to GridBagLayout
@@ -872,10 +1393,8 @@ private void handlePreferenceOption(String preferenceOption) {
             JButton alumniButton = new JButton("<html><b>Name:</b> " + alumni.name + "<br>" +
                     "<b>Branch:</b> " + alumni.branch + "<br>" +
                     "<b>Passing Year:</b> " + alumni.passingYear + "<br>" +
-                    "<b>Domain:</b> " + alumni.domain + "<br>" +
-                    "<b>Organisation:</b> " + alumni.organisation + "<br>" +
-                    "<b>Contact:</b> " + alumni.contact + "<br>" +
-                    "<b>Gmail:</b> " + alumni.gmail + "</html>");
+                    "<b>Domain:</b> " + alumni.domain + "<br>" 
+                    );
 
             // Set button properties
             alumniButton.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font
@@ -900,6 +1419,14 @@ private void handlePreferenceOption(String preferenceOption) {
             index++;
         }
 
+        // Add a back button
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> displayStudentOptions());
+        gbc.gridx = 0;
+        gbc.gridy = rowCount + 1; // Place the back button after the alumni buttons
+        gbc.gridwidth = 2; // Span across 2 columns
+        mainPanel.add(backButton, gbc);
+
         // Add the panel to a scroll pane
         JScrollPane scrollPane = new JScrollPane(mainPanel);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -912,6 +1439,7 @@ private void handlePreferenceOption(String preferenceOption) {
         repaint();
     }
 
+    
     private void displaySpecificAlumni(String opt, LinkedList<AlumniTree> alumniList) {
     	
         AlumniTree lst = null;
