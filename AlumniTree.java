@@ -1,682 +1,687 @@
 package buffer;
-
 import java.util.LinkedList;
+
 
 class AlumniTree {
 
 
+String data;
 
-	String data;
+LinkedList<AlumniTree> child;
 
-	LinkedList<AlumniTree> child;
+static AlumniTree root;
 
-	static AlumniTree root;
+AlumniTree(String data) {
 
-   
 
-	AlumniTree(String data) {
+this.data = data;
 
+this.child = new LinkedList<>();
 
 
-		this.data = data;
+}
 
-		this.child = new LinkedList<>();
 
+void initializeTree() {
 
 
-	}
+root = new AlumniTree("Alumni Tree");
 
+root.child.add(new AlumniTree("Passing Year"));
 
+root.child.add(new AlumniTree("Domain"));
 
-	void initializeTree() {
+root.child.add(new AlumniTree("Branch"));
 
+root.child.add(new AlumniTree("Organisation"));
 
 
-		root = new AlumniTree("Alumni Tree");
+}
 
-		root.child.add(new AlumniTree("Passing Year"));
 
-		root.child.add(new AlumniTree("Domain"));
+static void addDomain(String Domain, String Uname) {
 
-		root.child.add(new AlumniTree("Branch"));
 
-		root.child.add(new AlumniTree("Organisation"));
+AlumniTree newAlumni = new AlumniTree( Uname );
 
+LinkedList<AlumniTree> child = root.child;
 
+LinkedList<AlumniTree> temp = child;
 
-	}
+AlumniTree curr = null;
 
+for (AlumniTree at : temp){
 
+if (at.data.equals("Domain")) {
 
-	void addDomain(String Domain, String Uname) {
+curr = at;
 
+}
 
+}
 
-		AlumniTree newAlumni = new AlumniTree( Uname );
+AlumniTree par = curr;
 
-		LinkedList<AlumniTree> child = root.child;
+child = curr.child;
 
-		LinkedList<AlumniTree> temp = child;
+temp = child;
 
-		AlumniTree curr = null;
+curr = null;
 
-		
+boolean isFound = false;
 
-		for (AlumniTree at : temp){
 
-			if (at.data.equals("Domain")) {
+for (AlumniTree at : temp){
 
-				curr = at;
+if (at.data.equals(Domain)){
 
-			}
+isFound = true;
 
-		}
+curr = at;
 
-		AlumniTree par = curr;
+}
 
-		child = curr.child;
+}
 
-		temp = child;
+if (isFound) {
 
-		curr = null;
+curr.child.add(newAlumni);
 
-		boolean isFound = false;
+} else {
 
+AlumniTree newYear = new AlumniTree(Domain);
 
+newYear.child.add(newAlumni);
 
-		for (AlumniTree at : temp){
+par.child.add(newYear);
 
-			if (at.data.equals(Domain)){
+}
 
-				isFound = true;
+}
 
-				curr = at;
+static void addBranch(String Branch, String Uname){
 
-			}
 
-		}
+AlumniTree newAlumni = new AlumniTree(Uname);
 
-		if (isFound) {
+LinkedList<AlumniTree> child = root.child;
 
-			curr.child.add(newAlumni);
+LinkedList<AlumniTree> temp = child;
 
-		} else {
+AlumniTree curr = null;
 
-			AlumniTree newYear = new AlumniTree(Domain);
+for (AlumniTree at : temp) {
 
-			newYear.child.add(newAlumni);
+if (at.data.equals("Branch")) {
 
-			par.child.add(newYear);
+curr = at;
 
-		}
+}
 
-	}
+}
 
-	
+AlumniTree par = curr;
 
-	void deleteDomain(String Domain, String Uname)
+child = curr.child;
 
-	{
+temp = child;
 
-		LinkedList<AlumniTree> child = root.child;
+curr = null;
 
-		LinkedList<AlumniTree> temp = child;
+boolean isFound = false;
 
-		AlumniTree curr = null;
 
-		
+for (AlumniTree at : temp) {
 
-		for (AlumniTree at : temp){
+if (at.data.equals(Branch)) {
 
-			if (at.data.equals("Domain")) {
+isFound = true;
 
-				curr = at;
+curr = at;
 
-			}
+}
 
-		}
+}
 
-		
+if (isFound) {
 
-		AlumniTree par = curr;
+curr.child.add(newAlumni);
 
-		child = curr.child;
+} else {
 
-		temp = child;
+AlumniTree newYear = new AlumniTree(Branch);
 
-		curr = null;
+newYear.child.add(newAlumni);
 
-		boolean isFound = false;
+par.child.add(newYear);
 
-		for (AlumniTree at : temp){
+}
 
-			if (at.data.equals(Domain)){
+}
 
-				isFound = true;
+static void addPassingYear(String passYear, String Uname){
 
-				curr = at;
 
-			}
+AlumniTree newAlumni = new AlumniTree(Uname);
 
-		}
+LinkedList<AlumniTree> child = root.child;
 
-		
+LinkedList<AlumniTree> temp = child;
 
-		if (isFound) {
+AlumniTree curr = null;
 
-			
+for (AlumniTree at : temp) {
 
-			for(AlumniTree ct:curr.child)
+if (at.data.equals("Passing Year")) {
 
-			{
+curr = at;
 
-				if(ct.data.equals(Uname))
+}
 
-				{
+}
 
-					ct.data=null;
+AlumniTree par = curr;
 
-					
+child = curr.child;
 
-				}
+temp = child;
 
-				
+curr = null;
 
-			}
+boolean isFound = false;
 
-		} else {
 
-			System.out.println("Alumni does not exist");
+for (AlumniTree at : temp) {
 
-			return;
+if (at.data.equals(passYear)) {
 
-		}
+isFound = true;
 
-		
+curr = at;
 
-		if(curr.child==null)
+}
 
-		{
+}
 
-			curr=null;
+if (isFound) {
 
-		}
+curr.child.add(newAlumni);
 
-		
+} else {
 
-	}
+AlumniTree newYear = new AlumniTree(passYear);
 
+newYear.child.add(newAlumni);
 
+par.child.add(newYear);
 
-	void addBranch(String Branch, String Uname){
+}
 
+}
 
+void addOrganisation(String Organisation, String Uname){
 
-		AlumniTree newAlumni = new AlumniTree(Uname);
 
-		LinkedList<AlumniTree> child = root.child;
+AlumniTree newAlumni = new AlumniTree(Uname);
 
-		LinkedList<AlumniTree> temp = child;
+LinkedList<AlumniTree> child = root.child;
 
-		AlumniTree curr = null;
+LinkedList<AlumniTree> temp = child;
 
-		for (AlumniTree at : temp) {
+AlumniTree curr = null;
 
-			if (at.data.equals("Branch")) {
+for (AlumniTree at : temp) {
 
-				curr = at;
+if (at.data.equals("Organisation")) {
 
-			}
+curr = at;
 
-		}
+}
 
-		AlumniTree par = curr;
+}
 
-		child = curr.child;
+AlumniTree par = curr;
 
-		temp = child;
+child = curr.child;
 
-		curr = null;
+temp = child;
 
-		boolean isFound = false;
+curr = null;
 
+boolean isFound = false;
 
 
-		for (AlumniTree at : temp) {
+for (AlumniTree at : temp) {
 
-			if (at.data.equals(Branch)) {
+if (at.data.equals(Organisation)) {
 
-				isFound = true;
+isFound = true;
 
-				curr = at;
+curr = at;
 
-			}
+}
 
-		}
+}
 
-		if (isFound) {
+if (isFound) {
 
-			curr.child.add(newAlumni);
+curr.child.add(newAlumni);
 
-		} else {
+} else {
 
-			AlumniTree newYear = new AlumniTree(Branch);
+AlumniTree newYear = new AlumniTree(Organisation);
 
-			newYear.child.add(newAlumni);
+newYear.child.add(newAlumni);
 
-			par.child.add(newYear);
+par.child.add(newYear);
 
-		}
+}
 
-	}
+}
 
-	
+void deleteOrganisation(String Organisation, String Uname){
 
-	
 
-	
+LinkedList<AlumniTree> child = root.child;
 
-	void deleteBranch(String Branch, String Uname)
+LinkedList<AlumniTree> temp = child;
 
-	{
+AlumniTree curr = null;
 
-		LinkedList<AlumniTree> child = root.child;
+for (AlumniTree at : temp){
 
-		LinkedList<AlumniTree> temp = child;
+if (at.data.equals("Organisation")) {
 
-		AlumniTree curr = null;
+curr = at;
 
-		
+}
 
-		for (AlumniTree at : temp){
+}
 
-			if (at.data.equals("Branch")) {
+AlumniTree par = curr;
 
-				curr = at;
 
-			}
+child = curr.child;
 
-		}
 
-		
+temp = child;
 
-		AlumniTree par = curr;
 
-		child = curr.child;
+curr = null;
 
-		temp = child;
 
-		curr = null;
+boolean isFound = false;
 
-		boolean isFound = false;
 
-		for (AlumniTree at : temp){
+for (AlumniTree at : temp){
 
-			if (at.data.equals(Branch)){
 
-				isFound = true;
+if (at.data.equals(Organisation)){
 
-				curr = at;
 
-			}
+isFound = true;
 
-		}
 
-		
+curr = at;
 
-		if (isFound) {
+}
 
-			
+}
 
-			for(AlumniTree ct:curr.child)
+if (isFound) {
 
-			{
 
-				if(ct.data.equals(Uname))
+for(AlumniTree ct:curr.child){
 
-				{
 
-					ct.data=null;
+if(ct.data.equals(Uname)){
 
-					
 
-				}
+curr.child.remove(ct);
 
-				
 
-			}
+}
 
-		} else {
+}
 
-			System.out.println("Alumni does not exist");
+} else {
 
-			return;
 
-		}
+System.out.println("Alumni does not exist");
 
-		
+return;
 
-		if(curr.child==null)
+}
 
-		{
+if(curr.child==null){
 
-			curr=null;
 
-		}
+curr=null;
 
-		
+}
 
-	}
 
-	void addPassingYear(String passYear, String Uname){
+}
 
+void deletePassingYear(String passYear, String Uname)
 
 
-		AlumniTree newAlumni = new AlumniTree(Uname);
+{
 
-		LinkedList<AlumniTree> child = root.child;
 
-		LinkedList<AlumniTree> temp = child;
+LinkedList<AlumniTree> child = root.child;
 
-		AlumniTree curr = null;
 
-		for (AlumniTree at : temp) {
+LinkedList<AlumniTree> temp = child;
 
-			if (at.data.equals("Passing Year")) {
 
-				curr = at;
+AlumniTree curr = null;
 
-			}
 
-		}
 
-		AlumniTree par = curr;
+for (AlumniTree at : temp){
 
-		child = curr.child;
 
-		temp = child;
+if (at.data.equals("Passing Year")) {
 
-		curr = null;
 
-		boolean isFound = false;
+curr = at;
 
 
+}
 
-		for (AlumniTree at : temp) {
 
-			if (at.data.equals(passYear)) {
+}
 
-				isFound = true;
 
-				curr = at;
 
-			}
+AlumniTree par = curr;
 
-		}
 
-		if (isFound) {
+child = curr.child;
 
-			curr.child.add(newAlumni);
 
-		} else {
+temp = child;
 
-			AlumniTree newYear = new AlumniTree(passYear);
 
-			newYear.child.add(newAlumni);
+curr = null;
 
-			par.child.add(newYear);
 
-		}
+boolean isFound = false;
 
-	}
 
-	
+for (AlumniTree at : temp){
 
-	
 
-	void deletePassingYear(String passYear, String Uname)
+if (at.data.equals(passYear)){
 
-	{
 
-		LinkedList<AlumniTree> child = root.child;
+isFound = true;
 
-		LinkedList<AlumniTree> temp = child;
 
-		AlumniTree curr = null;
+curr = at;
 
-		
 
-		for (AlumniTree at : temp){
+}
 
-			if (at.data.equals("Passing Year")) {
 
-				curr = at;
+}
 
-			}
 
-		}
 
-		
+if (isFound) {
 
-		AlumniTree par = curr;
 
-		child = curr.child;
 
-		temp = child;
+for(AlumniTree ct:curr.child)
 
-		curr = null;
 
-		boolean isFound = false;
+{
 
-		for (AlumniTree at : temp){
 
-			if (at.data.equals(passYear)){
+if(ct.data.equals(Uname))
 
-				isFound = true;
 
-				curr = at;
+{
 
-			}
 
-		}
+curr.child.remove(ct);
 
-		
 
-		if (isFound) {
 
-			
+}
 
-			for(AlumniTree ct:curr.child)
 
-			{
 
-				if(ct.data.equals(Uname))
+}
 
-				{
 
-					ct.data=null;
+} else {
 
-					
 
-				}
+System.out.println("Alumni does not exist");
 
-				
 
-			}
+return;
 
-		} else {
 
-			System.out.println("Alumni does not exist");
+}
 
-			return;
 
-		}
 
-		
+if(curr.child==null)
 
-		if(curr.child==null)
+{
 
-		{
 
-			curr=null;
+curr=null;
 
-		}
+}
 
-		
+}
 
-	}
+void deleteBranch(String Branch, String Uname)
 
-	void addOrganisation(String Organisation, String Uname){
 
+{
 
 
-		AlumniTree newAlumni = new AlumniTree(Uname);
+LinkedList<AlumniTree> child = root.child;
 
-		LinkedList<AlumniTree> child = root.child;
 
-		LinkedList<AlumniTree> temp = child;
+LinkedList<AlumniTree> temp = child;
 
-		AlumniTree curr = null;
 
-		for (AlumniTree at : temp) {
+AlumniTree curr = null;
 
-			if (at.data.equals("Organisation")) {
+for (AlumniTree at : temp){
 
-				curr = at;
+if (at.data.equals("Branch")) {
 
-			}
+curr = at;
 
-		}
+}
 
-		AlumniTree par = curr;
+}
 
-		child = curr.child;
+AlumniTree par = curr;
 
-		temp = child;
 
-		curr = null;
+child = curr.child;
 
-		boolean isFound = false;
 
+temp = child;
 
 
-		for (AlumniTree at : temp) {
+curr = null;
 
-			if (at.data.equals(Organisation)) {
 
-				isFound = true;
+boolean isFound = false;
 
-				curr = at;
 
-			}
+for (AlumniTree at : temp){
 
-		}
 
-		if (isFound) {
+if (at.data.equals(Branch)){
 
-			curr.child.add(newAlumni);
 
-		} else {
+isFound = true;
 
-			AlumniTree newYear = new AlumniTree(Organisation);
 
-			newYear.child.add(newAlumni);
+curr = at;
 
-			par.child.add(newYear);
 
-		}
+}
 
-	}
+}
 
-	
 
-	void deleteOrganisation(String Organisation, String Uname){
+if (isFound) {
 
-		LinkedList<AlumniTree> child = root.child;
 
-		LinkedList<AlumniTree> temp = child;
+for(AlumniTree ct:curr.child){
 
-		AlumniTree curr = null;
 
-		
+if(ct.data.equals(Uname)){
 
-		for (AlumniTree at : temp){
 
-			if (at.data.equals("Organisation")) {
+curr.child.remove(ct);
 
-				curr = at;
+}
 
-			}
+}
 
-		}
+} else {
 
-		
+System.out.println("Alumni does not exist");
 
-		AlumniTree par = curr;
 
-		child = curr.child;
+return;
 
-		temp = child;
+}
 
-		curr = null;
+if(curr.child==null)
 
-		boolean isFound = false;
+{
 
-		for (AlumniTree at : temp){
+curr=null;
 
-			if (at.data.equals(Organisation)){
+}
 
-				isFound = true;
+}
 
-				curr = at;
+void deleteDomain(String Domain, String Uname)
 
-			}
 
-		}
+{
 
-		
 
-		if (isFound) {
+LinkedList<AlumniTree> child = root.child;
 
-			
+LinkedList<AlumniTree> temp = child;
 
-			for(AlumniTree ct:curr.child)
+AlumniTree curr = null;
 
-			{
 
-				if(ct.data.equals(Uname))
+for (AlumniTree at : temp){
 
-				{
 
-					ct.data=null;
+if (at.data.equals("Domain")) {
 
-					
 
-				}
+curr = at;
 
-				
 
-			}
 
-		} else {
+}
 
-			System.out.println("Alumni does not exist");
 
-			return;
+}
 
-		}
 
-		
 
-		if(curr.child==null)
+AlumniTree par = curr;
 
-		{
 
-			curr=null;
+child = curr.child;
 
-		}
 
-		
+temp = child;
 
-}}
+
+curr = null;
+
+
+boolean isFound = false;
+
+
+for (AlumniTree at : temp){
+
+
+if (at.data.equals(Domain)){
+
+
+isFound = true;
+
+
+curr = at;
+
+
+}
+
+
+}
+
+
+if (isFound) {
+
+
+for(AlumniTree ct:curr.child)
+
+
+{
+
+
+if(ct.data.equals(Uname))
+
+
+{
+
+
+curr.child.remove(ct);
+
+
+}
+
+}
+
+
+} else {
+
+
+System.out.println("Alumni does not exist");
+
+
+return;
+
+}
+
+
+if(curr.child==null)
+
+
+{
+
+
+curr=null;
+
+
+}
+
+
+
+}
+
+
+}
 
