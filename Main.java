@@ -1,4 +1,4 @@
-package buffer;
+
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Cursor;
+
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -1415,31 +1415,61 @@ public class Main extends JFrame {
         mainPanel.repaint();
     }
       void displayPreferenceChoices(LinkedList<AlumniTree> options,String name) {
-        JPanel optionsPanel = new JPanel(new GridBagLayout()); // Using GridBagLayout
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5); // Add padding
-        
-        for (AlumniTree o : options) {
-        	String option = o.data;
-            JButton button = new JButton(option);
-            button.addActionListener(e -> {
-                // Handle the action when the button is clicked
-            	displaySpecificAlumni(option,options,name);
-            });
-            button.setPreferredSize(new Dimension(300, 60)); // Set preferred button size
-            optionsPanel.add(button, gbc);
-            gbc.gridy++; // Move to the next row
-        }
-        
-        // Add options panel to main panel
-        mainPanel.removeAll();
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(new JScrollPane(optionsPanel), BorderLayout.CENTER);
-        mainPanel.revalidate();
-        mainPanel.repaint();
+    	  JPanel optionsPanel = new JPanel(new GridBagLayout()); // Using GridBagLayout
+    	  GridBagConstraints gbc = new GridBagConstraints();
+    	  gbc.gridx = 0;
+    	  gbc.gridy = 0;
+    	  gbc.fill = GridBagConstraints.HORIZONTAL;
+    	  gbc.insets = new Insets(5, 5, 5, 5); // Add padding
+
+    	  Color blueColor = new Color(11, 18, 48); // Blue color
+    	  Color redColor = new Color(89, 25, 5); // Red color
+    	  Color mustardColor = new Color(172, 181, 7); // Mustard color
+
+    	  Font buttonFont = new Font("Arial", Font.BOLD, 14); // Custom font for buttons
+    	  Font labelFont = new Font("Times New Roman", Font.ITALIC, 40); // Custom font for label
+
+    	  // Add label for "Option"
+    	  JLabel optionLabel = new JLabel(" Your choice ");
+    	  optionLabel.setFont(labelFont); // Set custom font
+    	  optionLabel.setForeground(mustardColor); // Set mustard font color
+    	  optionsPanel.add(optionLabel, gbc);
+    	  gbc.gridy++; // Move to the next row
+
+    	  for (AlumniTree o : options) {
+    	      String option = o.data;
+    	      JButton button = new JButton(option);
+    	      button.addActionListener(e -> {
+    	          // Handle the action when the button is clicked
+    	          displaySpecificAlumni(option, options, name);
+    	      });
+    	      button.setPreferredSize(new Dimension(300, 60)); // Set preferred button size
+    	      button.setBackground(blueColor); // Set blue background
+    	      button.setForeground(mustardColor); // Set mustard font color
+    	      button.setFont(buttonFont); // Set custom font
+    	      optionsPanel.add(button, gbc);
+    	      gbc.gridy++; // Move to the next row
+    	  }
+
+    	  // Add back button at the end
+    	  gbc.weighty = 1; // Add weight to push the back button to the bottom
+    	  JButton backButton = new JButton("Back");
+    	  backButton.addActionListener(e -> {
+    	          displayStudentOptions(name);
+    	  });
+    	  backButton.setPreferredSize(new Dimension(100, 30)); // Set smaller preferred button size
+    	  backButton.setBackground(redColor); // Set red background
+    	  backButton.setForeground(mustardColor); // Set mustard font color
+    	  backButton.setFont(buttonFont); // Set custom font
+    	  optionsPanel.add(backButton, gbc);
+
+    	  // Add options panel to main panel
+    	  mainPanel.removeAll();
+    	  mainPanel.setLayout(new BorderLayout());
+    	  mainPanel.add(new JScrollPane(optionsPanel), BorderLayout.CENTER);
+    	  mainPanel.revalidate();
+    	  mainPanel.repaint();
+
     }
 
 
@@ -1834,7 +1864,7 @@ private void handlePreferenceOption(String preferenceOption,String name) {
         gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
 
         // Add title JLabel
-        JLabel titleLabel = new JLabel("-------------Alumni---------------");
+        JLabel titleLabel = new JLabel("Alumni");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20)); // Set font and size
         titleLabel.setForeground(Color.WHITE); // Text color (white)
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center align text
@@ -1920,24 +1950,29 @@ private void handlePreferenceOption(String preferenceOption,String name) {
         revalidate();
         repaint();
     }
-
-    private void displayAlumniDetails(Alumni alumni,String name) {
+    private void displayAlumniDetails(Alumni alumni, String name) {
         // Create a new frame to display alumni details
         JFrame detailsFrame = new JFrame("Alumni Details");
         detailsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         detailsFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Set frame to full-screen mode
 
+        // Define colors
+        Color darkBlue = new Color(148, 16, 25);
+        Color mustard = new Color(7, 10, 23);
+        Color lightBlue = new Color(223, 243, 247);
+
         // Create a panel to hold the details
         JPanel detailsPanel = new JPanel();
-        detailsPanel.setBackground(Color.WHITE); // Set background color
+        detailsPanel.setBackground(lightBlue); // Set background color
         detailsPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5); // Add some padding
+        gbc.insets = new Insets(10, 10, 10, 10); // Add some padding
+        gbc.anchor = GridBagConstraints.CENTER; // Align components to the center
 
         // Add labels for each detail with custom styling
         gbc.gridx = 0;
         gbc.gridy = 0;
-        JLabel nameLabel = createLabel("<html><font size='8'><b><u>" + alumni.name + "</u></b></font></html>");
+        JLabel nameLabel = createLabel("<html><font size='8' color='" + darkBlue.getRGB() + "'><b><u>" + alumni.name + "</u></b></font></html>");
         detailsPanel.add(nameLabel, gbc);
         
         gbc.gridy++;
@@ -1962,7 +1997,7 @@ private void handlePreferenceOption(String preferenceOption,String name) {
         if (!alumni.posts.isEmpty()) {
             // Add heading for posts
             gbc.gridy++;
-            JLabel postsLabel = createLabel("<html><font size='6' color='#800080'><b>Posts</b></font></html>");
+            JLabel postsLabel = createLabel("<html><font size='6' color='" + darkBlue.getRGB() + "'><b>Posts</b></font></html>");
             detailsPanel.add(postsLabel, gbc);
 
             // Add the alumni's posts as buttons
@@ -1971,18 +2006,42 @@ private void handlePreferenceOption(String preferenceOption,String name) {
                 JButton postButton = new JButton("<html><b>Title:</b> " + post.Title + "<br>" +
                         "<b>Post Date:</b> " + post.postDate + "<br>" +
                         "<b>Deadline of Registration:</b> " + post.deadlineOfRegistration + "</html>");
-                postButton.setHorizontalAlignment(SwingConstants.LEFT);
-                postButton.setVerticalAlignment(SwingConstants.TOP);
-                postButton.setPreferredSize(new Dimension(300, 80)); // Set preferred size for each button
-                postButton.setBackground(new Color(200, 160, 220)); // Set background color (lavender/purple)
+                postButton.setHorizontalAlignment(SwingConstants.CENTER); // Center text horizontally
+                postButton.setVerticalAlignment(SwingConstants.CENTER); // Center text vertically
+                postButton.setPreferredSize(new Dimension(400, 100)); // Set preferred size for each button
+                postButton.setBackground(mustard); // Set background color (mustard)
+                postButton.setForeground(Color.WHITE); // Set font color to dark blue
+                postButton.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font
+                postButton.setBorder(BorderFactory.createLineBorder(darkBlue)); // Add border
+
                 postButton.addActionListener(e -> {
                     // Perform action when post button is clicked, e.g., display post details
-                    displayPostDetails(post,name);
+                    displayPostDetails(post, name);
                 });
 
                 detailsPanel.add(postButton, gbc);
             }
         }
+        
+        // Add back button at the end
+        gbc.gridy++;
+        gbc.anchor = GridBagConstraints.CENTER; // Align button to the center
+        gbc.fill = GridBagConstraints.NONE; // Ensure button doesn't stretch
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(e -> {
+            // Handle action to go back
+            // For example, close the details frame
+            detailsFrame.dispose();
+        });
+        backButton.setPreferredSize(new Dimension(150, 40)); // Set preferred button size
+        backButton.setBackground(darkBlue); // Set dark blue background color for back button
+        backButton.setForeground(Color.WHITE); // Set font color to white
+        backButton.setFont(new Font("Arial", Font.BOLD, 16)); // Set font
+        backButton.setBorderPainted(false); // Remove border
+        backButton.setFocusPainted(false); // Remove focus border
+        backButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Change cursor to hand when hovering
+
+        detailsPanel.add(backButton, gbc);
 
         // Wrap the details panel in a scroll pane
         JScrollPane scrollPane = new JScrollPane(detailsPanel);
@@ -1991,9 +2050,14 @@ private void handlePreferenceOption(String preferenceOption,String name) {
         // Add the scroll pane to the frame
         detailsFrame.add(scrollPane);
 
+        // Center the frame on the screen
+        detailsFrame.setLocationRelativeTo(null);
+
         // Make the frame visible
         detailsFrame.setVisible(true);
     }
+
+
     private void displayPostDetails(Post post,String name) {
         // Create a new frame to display post details
         JFrame detailsFrame = new JFrame("Post Details");
