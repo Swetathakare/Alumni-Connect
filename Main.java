@@ -1349,7 +1349,7 @@ public class Main extends JFrame {
                        changed = true;
                    }
                    }
-   	            JOptionPane.showMessageDialog(mainPanel, "U");
+   	            JOptionPane.showMessageDialog(mainPanel, "Updated Sucessfully !");
                    showAlumniOptions(updatedID);
                 }                          
         });
@@ -1396,7 +1396,7 @@ public class Main extends JFrame {
         for (String option : preferenceOptions) {
             JButton button = new JButton(option);
             if (option.equals("Back")) {
-                button.addActionListener(e -> displayMainMenu()); // Display student options on Back button click
+                button.addActionListener(e -> displayStudentOptions(name)); // Display student options on Back button click
             } else {
                 button.addActionListener(e -> {
                     handlePreferenceOption(option,name);
@@ -1458,7 +1458,7 @@ private void handlePreferenceOption(String preferenceOption,String name) {
         	seeAlumniByPreference(4,name);
             break;
         case "Back":
-        	displayMainMenu();
+        	displayStudentOptions(name);
             break;
     }
 }
@@ -1571,7 +1571,7 @@ private void handlePreferenceOption(String preferenceOption,String name) {
 
         // Add a back button
         JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> displayStudentOptions(u_name));
+        backButton.addActionListener(e -> showAlumniOptions(u_name));
         gbc.gridx = 0;
         gbc.gridy = index + 1; // Place the back button after the post buttons
         gbc.gridwidth = 2; // Span across 2 columns
