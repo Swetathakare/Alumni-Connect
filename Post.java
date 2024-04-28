@@ -1,4 +1,4 @@
-package buffer;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -158,12 +158,12 @@ class Post {
 
 	public ArrayList<String> getTags() {
 
-
-
 		return postTags;
 
 
 
 	}
+
+
 
 }
