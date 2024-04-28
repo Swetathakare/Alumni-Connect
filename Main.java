@@ -1,4 +1,4 @@
-
+package buffer;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -1376,7 +1376,6 @@ public class Main extends JFrame {
         mainPanel.repaint();
     }
 
-
     private void displayAlumniPreferenceOptions(String name) {
         String[] preferenceOptions = {
             "Based on branch",
@@ -1385,28 +1384,31 @@ public class Main extends JFrame {
             "Based on organization",
             "Back"
         };
-        
+
         JPanel preferencePanel = new JPanel(new GridBagLayout()); // Using GridBagLayout
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5); // Add padding
-        
+
         for (String option : preferenceOptions) {
             JButton button = new JButton(option);
+            button.setPreferredSize(new Dimension(300, 60)); // Set preferred button size
             if (option.equals("Back")) {
+                button.setBackground(new Color(77, 12, 7)); // Set background color to red (RGB: 255, 0, 0) for "Back" button
                 button.addActionListener(e -> displayStudentOptions(name)); // Display student options on Back button click
             } else {
+                button.setBackground(new Color(10, 18, 54)); // Set background color to blue (RGB: 0, 0, 255) for other buttons
                 button.addActionListener(e -> {
                     handlePreferenceOption(option,name);
                 });
             }
-            button.setPreferredSize(new Dimension(300, 60)); // Set preferred button size
+            button.setForeground(new Color(235, 227, 82)); // Set font color to yellow (RGB: 255, 255, 0) for all buttons
             preferencePanel.add(button, gbc);
             gbc.gridy++; // Move to the next row
         }
-        
+
         // Add preference panel to main panel
         mainPanel.removeAll();
         mainPanel.setLayout(new BorderLayout());
@@ -1414,6 +1416,7 @@ public class Main extends JFrame {
         mainPanel.revalidate();
         mainPanel.repaint();
     }
+
       void displayPreferenceChoices(LinkedList<AlumniTree> options,String name) {
     	  JPanel optionsPanel = new JPanel(new GridBagLayout()); // Using GridBagLayout
     	  GridBagConstraints gbc = new GridBagConstraints();
