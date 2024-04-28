@@ -1,3 +1,5 @@
+package buffer;
+
 
 
 import java.time.LocalDate;
@@ -163,7 +165,5 @@ class Post {
 
 
 	}
-
-
 
 }
