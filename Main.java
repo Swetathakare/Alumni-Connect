@@ -2,11 +2,28 @@ package buffer;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Cursor;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import java.awt.geom.RoundRectangle2D;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
 
 public class Main extends JFrame {
@@ -481,7 +498,7 @@ public class Main extends JFrame {
         					branch, yearOfStudy, gpa,areaOfInterest ,workExperience ,password));
         	        System.out.println(StudentDB.studentsList.get(StudentDB.studentsList.size()-1).name+" "+StudentDB.studentsList.get(StudentDB.studentsList.size()-1).name  );
         	        JOptionPane.showMessageDialog(mainPanel, "Account successfully created!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        	        displayStudentOptions(name);
+                	displayStudentLoginPage();
         	        // Open new frame or perform any other action here
         	    }
         	});
@@ -1107,15 +1124,21 @@ public class Main extends JFrame {
                     	    // Check if entered username and password match the alumni's credentials
                     	    if (enteredUsername != null && enteredPassword != null) {
                     	        if (alumniDB.alumniMap.containsKey(u_name) && enteredUsername.equals(u_name) && enteredPassword.equals(alumniDB.alumniMap.get(u_name).password)) {
-                    	        	Alumni a = alumniDB.alumniMap.get(u_name);
-                    	        	
-                    	        	alumniTree.deleteDomain(a.domain,a.id);
-                    	        	alumniTree.deleteOrganisation(a.organisation,a.id);
-                    	        	alumniTree.deleteBranch(a.branch,a.id);
-                    	        	alumniTree.deletePassingYear(a.passingYear,a.id);
-                    	        	
-                    	        	alumniDB.alumniMap.remove(u_name);
-                    	            JOptionPane.showMessageDialog(mainPanel, "Alumni account deleted successfully!");
+                    	            // Ask for confirmation before deleting the account
+                    	            int deleteConfirmation = JOptionPane.showConfirmDialog(mainPanel, "Are you sure you want to delete your account?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                    	            if (deleteConfirmation == JOptionPane.YES_OPTION) {
+                    	                Alumni a = alumniDB.alumniMap.get(u_name);
+                    	                alumniTree.deleteDomain(a.domain,a.id);
+                    	                alumniTree.deleteOrganisation(a.organisation,a.id);
+                    	                alumniTree.deleteBranch(a.branch,a.id);
+                    	                alumniTree.deletePassingYear(a.passingYear,a.id);
+                    	                alumniDB.alumniMap.remove(u_name);
+                    	                JOptionPane.showMessageDialog(mainPanel, "Alumni account deleted successfully!");
+                    	                displayAlumniOptions();
+                    	            } else {
+                    	                JOptionPane.showMessageDialog(mainPanel, "Account deletion cancelled.");
+                    	                showAlumniOptions(u_name);
+                    	            }
                     	        } else {
                     	            // Display error message if username or password is incorrect
                     	            JOptionPane.showMessageDialog(mainPanel, "Incorrect username or password. Please try again.");
