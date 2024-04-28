@@ -1,6 +1,8 @@
 package buffer;
 
+
 public class Registration {
+	
 	String rollNum;
 
 	String name;
