@@ -1903,10 +1903,8 @@ private void handlePreferenceOption(String preferenceOption,String name) {
             JButton alumniButton = new JButton("<html><b>Name:</b> " + alumni.name + "<br>" +
                     "<b>Branch:</b> " + alumni.branch + "<br>" +
                     "<b>Passing Year:</b> " + alumni.passingYear + "<br>" +
-                    "<b>Domain:</b> " + alumni.domain + "<br>" +
-                    "<b>Organisation:</b> " + alumni.organisation + "<br>" +
-                    "<b>Contact:</b> " + alumni.contact + "<br>" +
-                    "<b>Gmail:</b> " + alumni.gmail + "</html>");
+                    "<b>Organisation:</b> " + alumni.organisation + "<br>" );
+                    
 
             // Set button properties
             alumniButton.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font
@@ -2144,7 +2142,7 @@ private void handlePreferenceOption(String preferenceOption,String name) {
         	    } else {
         	    	
         	    	post.registeredStudents.add(new Registration(st.rollNum,st.name,st.contactNo,st.emailId));
-        	    	detailsFrame.setVisible(false);
+        	    	JOptionPane.showMessageDialog(detailsFrame, "Registered sucessfully");
         	       displayStudentOptions(name);
         	    }
         });
