@@ -1,7 +1,7 @@
 
 # Cummins Connect
 
-To develop a solution to the problem of current students lacking effective means to connect with esteemed alumni from our college, hindering access to valuable guidance and opportunities, Cummins Connect is developed using the concepts of data structure and algorithms  to improve the students access to alumni of their college. This solution aims to enhance mentorship and networking within our college community.
+Developed  a solution to the problem of current students lacking effective means to connect with esteemed alumni from our college, hindering access to valuable guidance and opportunities, Cummins Connect is developed using the concepts of data structure and algorithms  to improve the students access to alumni of their college. This solution aims to enhance mentorship and networking within our college community.
 
 ![Screenshot (741)](https://github.com/Swetathakare/Alumni-Connect/assets/143093330/0d9fae5c-3587-4baa-80b6-e9b731aaf20b)
 
