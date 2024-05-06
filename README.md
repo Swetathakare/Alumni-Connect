@@ -1,7 +1,7 @@
 
 # Cummins Connect
 
-Developed  a solution to the problem of current students lacking effective means to connect with esteemed alumni from our college, hindering access to valuable guidance and opportunities, Cummins Connect is developed using the concepts of data structure and algorithms  to improve the students access to alumni of their college. This solution aims to enhance mentorship and networking within our college community.
+   Developed  a solution to the problem of current students lacking effective means to connect with esteemed alumni from our college, hindering access to valuable guidance and opportunities, Cummins Connect is developed using the concepts of data structure and algorithms  to improve the students access to alumni of their college. This solution aims to enhance mentorship and networking within our college community.
 
 ![Screenshot (741)](https://github.com/Swetathakare/Alumni-Connect/assets/143093330/0d9fae5c-3587-4baa-80b6-e9b731aaf20b)
 
@@ -20,25 +20,28 @@ Data Structures Used
 =======================
 
 
-1. Alumni Database Side: HashMap
+1- Alumni Database Side: HashMap
    --------------------------
 
-        Hash maps offer efficient lookup and retrieval times, crucial for managing large sets of alumni data.
 
-2. Alumni Arrangement: Trees (Non-linear)
+   Hash maps offer efficient lookup and retrieval times, crucial for managing large sets of alumni data.
+
+2- Alumni Arrangement: Trees (Non-linear)
    -------------------
 
-        Trees facilitate hierarchical organization, allowing for easy navigation and categorization of alumni based on
-       various attributes.
 
-4. Student Database Side: Linked List
-    ----------------
-       Linked lists provide flexibility for dynamic data manipulation, making them suitable for managing student profiles.
+Trees facilitate hierarchical organization, allowing for easy navigation and categorization of alumni based on
+various attributes.
 
-5. Post: Array List
+3- Student Database Side: Linked List
+ ----------------
+   
+ Linked lists provide flexibility for dynamic data manipulation, making them suitable for managing student profiles.
+
+4- Post: Array List
    ---------------
    
-        Arrays offer constant-time access to elements, making them suitable for storing and retrieving posts efficiently.
+ Arrays offer constant-time access to elements, making them suitable for storing and retrieving posts efficiently.
 
 Data Structures Visualisation
 ------------------------
